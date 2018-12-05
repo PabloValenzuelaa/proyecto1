@@ -10,5 +10,7 @@ package proyectoavanzada;
  * @author Diali
  */
 public class Accion {
-    
+    public void aaa(){
+        
+    }
 }
