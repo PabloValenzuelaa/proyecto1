@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectoavanzada.EntidadController">
+   <children>
+      <ImageView fitHeight="772.0" fitWidth="299.0" layoutX="-3.0" pickOnBounds="true" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../rect.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="nombreEntidad" layoutX="128.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  " wrappingWidth="1.0" />
+      <Pane fx:id="pane" layoutX="296.0" onMouseClicked="#dibujar" onMouseDragged="#transportar" prefHeight="720.0" prefWidth="1240.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFDS" underline="true">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Text>
+            <Circle fx:id="circulo" fill="#ffa81f" layoutX="100.0" layoutY="240.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+      </Pane>
+      <Button fx:id="botonEntidad" layoutX="87.0" layoutY="35.0" mnemonicParsing="false" onAction="#crearEntidad" prefHeight="56.0" prefWidth="113.0" text="Entidad ">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Button>
+      <Text fx:id="nombre" layoutX="69.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
+         <font>
+            <Font size="17.0" />
+         </font></Text>
+      <Button fx:id="botonCrear" layoutX="106.0" layoutY="437.0" mnemonicParsing="false" onAction="#crear" prefHeight="42.0" prefWidth="81.0" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#308722" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <TextField fx:id="insertarTexto1" layoutX="69.0" layoutY="396.0" prefHeight="32.0" prefWidth="154.0" />
+      <ImageView fitHeight="57.0" fitWidth="66.0" layoutX="73.0" layoutY="590.0" onMouseClicked="#limpiar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../limpiar.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="66.0" fitWidth="123.0" layoutX="85.0" layoutY="33.0" onMouseClicked="#crearEntidad" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../entidad.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="136.0" layoutX="78.0" layoutY="103.0" onMouseClicked="#crearRelacion" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../relacion.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="172.0" layoutY="590.0" onMouseClicked="#guardar" pickOnBounds="true">
+         <image>
+            <Image url="@../guardar.PNG" />
+         </image>
+      </ImageView>
+      <Text fx:id="textoBotonCrear" fill="WHITE" layoutX="123.0" layoutY="466.0" onMouseClicked="#crear" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <CheckBox layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#puntosDeControl" text="Puntos de control" />
+      <Button layoutX="130.0" layoutY="235.0" mnemonicParsing="false" onAction="#crearAtributo" prefHeight="17.0" prefWidth="32.0" text="Atributo" />
+      <Button fx:id="herencia" layoutX="85.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
+      <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="68.0" layoutY="221.0" onMousePressed="#crearAtributo" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../afinal.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="85.0" layoutY="306.0" onMouseClicked="#CrearHerecia" pickOnBounds="true">
+         <image>
+            <Image url="@../hfinal.PNG" />
+         </image>
+      </ImageView>
+      <Button fx:id="terminar" layoutX="236.0" layoutY="437.0" mnemonicParsing="false" onAction="#terminar" prefHeight="42.0" prefWidth="40.0" text="terminar" />
+      <Button layoutX="173.0" layoutY="517.0" mnemonicParsing="false" onAction="#editar" prefHeight="56.0" prefWidth="56.0" text="Editar" />
+      <Button layoutX="74.0" layoutY="517.0" mnemonicParsing="false" onAction="#seleccionar" prefHeight="56.0" prefWidth="56.0" text="Borrar" />
+      <ImageView fitHeight="61.0" fitWidth="56.0" layoutX="74.0" layoutY="518.0" onMouseClicked="#seleccionar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../borrarfinal.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="57.0" fitWidth="56.0" layoutX="172.0" layoutY="517.0" onMouseClicked="#editar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../editarfinal.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imagenTerminar" fitHeight="42.0" fitWidth="40.0" layoutX="236.0" layoutY="438.0" onMouseClicked="#terminar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../chekfinal.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="61.0" fitWidth="115.0" layoutX="89.0" layoutY="647.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../logo.PNG" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
