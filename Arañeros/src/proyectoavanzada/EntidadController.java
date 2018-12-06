@@ -1416,6 +1416,5 @@ public class EntidadController implements Initializable {
         atributo.poligono.borrar();
         pane.getChildren().remove(atributo.texto);
         sePuedeSeleccionarBorrar=false;
-        
     }
 }
