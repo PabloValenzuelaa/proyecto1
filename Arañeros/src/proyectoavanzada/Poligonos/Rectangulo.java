@@ -89,6 +89,17 @@ import javafx.scene.shape.StrokeLineCap;
         this.lineaDerecha= new Line(punto.x+largo,punto.y,punto.x+largo,punto.y+40);
     }
    
+    public void PosicionAgregacionIzq(Point puntoCentral){
+        puntoCentral.x = puntoCentral.x-500;
+        this.punto=puntoCentral;
+        Mover(punto);
+    }
+    public void PosicionAgregacionDer(Point puntoCentral){
+        puntoCentral.x = puntoCentral.x+500;
+        this.punto=puntoCentral;
+        Mover(punto);
+
+    }
     
     public void Mover(Point punto) {
         Borrar();

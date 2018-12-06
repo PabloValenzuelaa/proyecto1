@@ -109,6 +109,8 @@ public class EntidadController implements Initializable {
     public ArrayList<Relacion> relacionesSeleccionadas= new ArrayList();
     public ArrayList<Entidad> entidadesHeredadas= new ArrayList();
     public ArrayList<Relacion> relacionesAModificar= new ArrayList();
+    public ArrayList<Agregacion> agregaciones= new ArrayList();
+
     
     public ArrayList<UnionHerencia> herencias= new ArrayList();
     public ArrayList distanciaEntrePuntos= new ArrayList();
@@ -644,6 +646,15 @@ public class EntidadController implements Initializable {
         herencia.setVisible(false);
         sePuedeSeleccionarBorrar=false;
         
+    }
+    @FXML
+    public void CrearAgregacion(){
+        System.out.println("Click 1");
+        Agregacion agregacion = new Agregacion(relaciones.get(0));
+        agregaciones.add(agregacion);
+        System.out.println("Click 2");
+        agregaciones.get(0).rectanguloAgregacion.Dibujar(pane);
+        System.out.println("Click 3");
     }
     @FXML
     public void terminar(){
@@ -1405,7 +1416,5 @@ public class EntidadController implements Initializable {
         atributo.poligono.borrar();
         pane.getChildren().remove(atributo.texto);
         sePuedeSeleccionarBorrar=false;
-        System.out.println("");
-        
     }
 }
