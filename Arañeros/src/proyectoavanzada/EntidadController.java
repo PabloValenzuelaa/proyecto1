@@ -133,11 +133,9 @@ public class EntidadController implements Initializable {
     public boolean seSeleccionoHerencia=false;
     public boolean seSeleccionoCompuesto=false;
     public boolean sePuedeEditar=false;
+    public boolean sePuedeCrearAgregacion=false;
     public int objetoNumero=-1;
     public Atributo atributoCompuesto;
-    
-    
-    
     
     @FXML
     public void transportar(){
@@ -147,6 +145,19 @@ public class EntidadController implements Initializable {
             punto.x=punto.x-300;
             
             if(relaciones.get(i).poligono.seleccionar(punto)){
+                for (int j = 0; j < agregaciones.size(); j++) {
+                    if(agregaciones.get(j).relacion.equals(relaciones.get(i))){
+                        System.out.println("IGUAAAAAAAL");
+                        boolean sonDos=false;
+                        if(agregaciones.get(j).relacion.entidadesSelec.size()==2){
+                            sonDos=true;
+                        }
+                        agregaciones.get(j).rectanguloAgregacion.Mover(punto, pane,sonDos);
+                        /*
+                            Movemos inmediatamente las entidades relacionadas???
+                        */
+                    }
+                }
                 if(relaciones.get(i) instanceof RelaciónDebil){
                     punto.x=punto.x+300;
                     Poligono poligono2 = relaciones.get(i).poligono;
@@ -399,7 +410,9 @@ public class EntidadController implements Initializable {
             }
             
             
+            
         }
+    
         else if(crearHerencia){
                 Point punto = MouseInfo.getPointerInfo().getLocation();
                 punto.x-=300;
@@ -419,8 +432,6 @@ public class EntidadController implements Initializable {
                         break;
                     }
                 }    
-                
-            
         }
         else if (sePuedeSeleccionar){
             
@@ -448,6 +459,7 @@ public class EntidadController implements Initializable {
                             entidadesSeleccionadas.clear();
                             //REPINTAMOS NEGRO
                         }
+                        
                         //ENTIDAD SELECCIONADA
                         if (sePuedeEditar){
                             
@@ -470,10 +482,21 @@ public class EntidadController implements Initializable {
                     //punto.x
                     if(relaciones.get(i).poligono.seleccionar(punto)){
                         relaciones.get(i).poligono.Dibujar2();
+                        if (sePuedeCrearAgregacion){
+                            for (int j = 0; j < relacionesSeleccionadas.size(); j++) {
+                                relacionesSeleccionadas.get(j).poligono.repintarNegro();
+                            }
+                            relacionesSeleccionadas.clear();
+                            for (int p = 0; p < entidadesSeleccionadas.size(); p++) {
+                                entidadesSeleccionadas.get(p).rectangulo.Borrar();
+                                entidadesSeleccionadas.get(p).rectangulo.Dibujar();
+                                entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
+                            }
+                            entidadesSeleccionadas.clear();
+                        }
                         if (sePuedeCrearAtributo){
                             atributoEntidad=false;
                             atributoRelacion=true;
-                            
                             for (int j = 0; j < relacionesSeleccionadas.size(); j++) {
                                 relacionesSeleccionadas.get(j).poligono.repintarNegro();
                             }
@@ -638,6 +661,7 @@ public class EntidadController implements Initializable {
         botonCrear.setVisible(true);
         textoBotonCrear.setVisible(true);
     }
+    
     @FXML
     public void CrearHerecia(){
         crearHerencia=true;
@@ -647,14 +671,18 @@ public class EntidadController implements Initializable {
         sePuedeSeleccionarBorrar=false;
         
     }
+    
     @FXML
     public void CrearAgregacion(){
-        System.out.println("Click 1");
-        Agregacion agregacion = new Agregacion(relaciones.get(0));
-        agregaciones.add(agregacion);
-        System.out.println("Click 2");
-        agregaciones.get(0).rectanguloAgregacion.Dibujar(pane);
-        System.out.println("Click 3");
+        sePuedeCrearAgregacion=true;
+        sePuedeSeleccionar=true;
+        botonCrear.setVisible(true);
+        
+        textoBotonCrear.setText("Crear");
+        insertarTexto1.setText("");
+        insertarTexto1.setVisible(true);
+        textoBotonCrear.setVisible(true);
+        
     }
     @FXML
     public void terminar(){
@@ -686,6 +714,7 @@ public class EntidadController implements Initializable {
             herencia.setVisible(true);
         }
     }
+    
     public boolean interseccionRectangulo(ArrayList<Point> puntos,int entidadNum){
         if ((entidades.get(entidadNum).rectangulo.getPuntos().get(0).x<=posX
                 &&posX<=entidades.get(entidadNum).rectangulo.getPuntos().get(1).x
@@ -697,6 +726,7 @@ public class EntidadController implements Initializable {
         }
         return false;
     }
+    
     @FXML
     public void crear(){
         if(sePuedeEditar){
@@ -724,6 +754,13 @@ public class EntidadController implements Initializable {
                 atributos.get(objetoNumero).texto.setText(insertarTexto1.getText());
                 seSeleccionoAtributo=false;
             }
+            else if(sePuedeCrearAgregacion){
+                Agregacion agregacion = new Agregacion(relacionesSeleccionadas.get(0),relacionesSeleccionadas.get(0).poligono.punto,null,null,null);
+                //Relacion relacion, Point puntoCentral, Line linea, Text nombre, Rectangulo rectangulo
+                agregaciones.add(agregacion);
+                agregaciones.get(agregaciones.size()).rectanguloAgregacion.Dibujar(pane);
+                //pane.getChildren().add(agregaciones.get(0).linea);
+            }
             sePuedeEditar=false;
             sePuedeSeleccionar=false;
             textoBotonCrear.setText("Crear");
@@ -734,6 +771,14 @@ public class EntidadController implements Initializable {
         }
         
         else{
+            if(sePuedeCrearAgregacion){
+                System.out.println("SKJDNVKZJDF");
+                Agregacion agregacion = new Agregacion(relacionesSeleccionadas.get(0),relacionesSeleccionadas.get(0).poligono.punto,null,null,null);
+                //Relacion relacion, Point puntoCentral, Line linea, Text nombre, Rectangulo rectangulo
+                agregaciones.add(agregacion);
+                agregaciones.get(agregaciones.size()-1).rectanguloAgregacion.Dibujar(pane);
+                actualizarUniones();
+            }
             sePuedeDibujar=true;
             nombre.setVisible(false);
             insertarTexto1.setVisible(false);
