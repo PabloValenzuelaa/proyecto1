@@ -90,12 +90,12 @@ import javafx.scene.shape.StrokeLineCap;
     }
    
     public void PosicionAgregacionIzq(Point puntoCentral){
-        puntoCentral.x = puntoCentral.x-500;
+        puntoCentral.x = puntoCentral.x-200;
         this.punto=puntoCentral;
         Mover(punto);
     }
     public void PosicionAgregacionDer(Point puntoCentral){
-        puntoCentral.x = puntoCentral.x+500;
+        puntoCentral.x = puntoCentral.x+200;
         this.punto=puntoCentral;
         Mover(punto);
 
