@@ -20,7 +20,7 @@ public class Entidad {
     public ArrayList <Atributo> atributos = new ArrayList();
     public ArrayList<Line> lineas=new ArrayList();
     public ArrayList<Relacion> relaciones=new ArrayList();
-
+    public Text cardinalidad;
     public ArrayList<Relacion> getRelaciones() {
         return relaciones;
     }
@@ -39,6 +39,14 @@ public class Entidad {
     public Entidad(Text nombre, Rectangulo rectangulo) {
         this.nombre = nombre;
         this.rectangulo = rectangulo;
+    }
+
+    public Text getCardinalidad() {
+        return cardinalidad;
+    }
+
+    public void setCardinalidad(Text cardinalidad) {
+        this.cardinalidad = cardinalidad;
     }
     
     

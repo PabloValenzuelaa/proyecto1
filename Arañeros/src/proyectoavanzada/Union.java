@@ -7,6 +7,7 @@ package proyectoavanzada;
 
 import java.awt.Point;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import proyectoavanzada.Poligonos.Poligono;
 import proyectoavanzada.Poligonos.Rectangulo;
 
@@ -19,6 +20,15 @@ public class Union {
     public Entidad entidad;
     
     public Atributo atributo;
+    public Text car=null;
+
+    public Text getCar() {
+        car.setLayoutX(puntoCar.x);
+        car.setLayoutY(puntoCar.y);
+        return car;
+    }
+
+    
     
     public Atributo atributo2=null;
     public boolean unoAuno;
@@ -26,11 +36,14 @@ public class Union {
     public boolean doble;
     Line linea;
     
+    public Point puntoCar;
+    
 
-    public Union(Relacion relacion, Entidad entidad, Atributo atributo) {
+    public Union(Relacion relacion, Entidad entidad, Atributo atributo,Point puntoCar) {
         this.relacion = relacion;
         this.entidad = entidad;
         this.atributo = atributo;
+        this.puntoCar = puntoCar;
         unoAuno=false;
         doble=false;
     }
@@ -50,7 +63,21 @@ public class Union {
                         punto1Ant=punto1;
                         punto2Ant=punto2;
                         punto1=entidad.rectangulo.puntos.get(j);
+                        puntoCar=new Point(entidad.rectangulo.puntos.get(j));
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(2)){
+                            puntoCar.x-=25;
+                            puntoCar.y+=10;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(0)){
+                            puntoCar.x-=15;
+                            puntoCar.y-=5;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(3)){
+                            puntoCar.x+=5;
+                            puntoCar.y-=5;
+                        }
                         punto2=poligono.getPuntos().get(k);
+                       
                     }
             }
         }
