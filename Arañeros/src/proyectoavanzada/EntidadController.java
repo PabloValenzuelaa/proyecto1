@@ -1618,10 +1618,12 @@ public class EntidadController implements Initializable {
         sePuedeSeleccionarBorrar=false;
         
     }
+    @FXML
    public void editarCardinalidad(){
        sePuedeSeleccionar=true;
        sePuedeEditarCar=true;
    }
+   @FXML
    public void doble(){
        sePuedeSeleccionar=true;
        sePuedeDibujarDoble=true;
