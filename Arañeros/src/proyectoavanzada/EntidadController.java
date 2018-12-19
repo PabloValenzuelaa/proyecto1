@@ -137,6 +137,7 @@ public class EntidadController implements Initializable {
     public boolean sePuedeEditar=false;
     public int objetoNumero=-1;
     public Atributo atributoCompuesto;
+    public boolean sePuedeEditarCar=false;
     
     public Point puntoCar;
     @FXML
@@ -357,7 +358,8 @@ public class EntidadController implements Initializable {
                         textito.setLayoutY(puntoCar.y);            
                         textito.setVisible(true);
                         pane.getChildren().add(textito);
-                        union.car=textito;
+                        union.setCar(textito);
+                        
                         
                         uniones.add(union);
                         lineaa.setStroke(Color.BLACK); //colo de la linea que une
@@ -483,6 +485,19 @@ public class EntidadController implements Initializable {
                             seSeleccionoAtributo=false;
                             seSeleccionoHerencia=false;
                             
+                            objetoNumero=i;
+                        }
+                        if(sePuedeEditarCar){
+                            insertarTexto1.setVisible(true);
+                            botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR (textoBotonCrear)
+                            textoBotonCrear.setVisible(true);
+                            textoBotonCrear.setText("Editar");
+                            nombre.setText("Cardinalidad");
+                            nombre.setVisible(true);
+                            seSeleccionoEntidad=true;
+                            seSeleccionoRelacion=false;
+                            seSeleccionoAtributo=false;
+                            seSeleccionoHerencia=false;
                             objetoNumero=i;
                         }
                         entidadesSeleccionadas.add(entidades.get(i));
@@ -754,6 +769,31 @@ public class EntidadController implements Initializable {
             insertarTexto1.setVisible(false);
             textoBotonCrear.setVisible(false);
             botonCrear.setVisible(false);
+        }
+        if(sePuedeEditarCar){
+            if(seSeleccionoEntidad){
+                for (int p = 0; p < entidadesSeleccionadas.size(); p++) {
+                    entidadesSeleccionadas.get(p).rectangulo.Borrar();
+                    entidadesSeleccionadas.get(p).rectangulo.Dibujar();
+                    entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
+                }
+                for (int i = 0; i < uniones.size(); i++) {
+                    if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))){
+                        uniones.get(i).car.setText(insertarTexto1.getText());
+                    }
+                }
+                
+                
+                seSeleccionoEntidad=false;
+            }
+            sePuedeEditar=false;
+            sePuedeSeleccionar=false;
+            textoBotonCrear.setText("Crear");
+            insertarTexto1.setText("");
+            insertarTexto1.setVisible(false);
+            textoBotonCrear.setVisible(false);
+            botonCrear.setVisible(false);
+            nombre.setVisible(false);
         }
         
         else{
@@ -1446,4 +1486,8 @@ public class EntidadController implements Initializable {
         pane.getChildren().remove(atributo.texto);
         sePuedeSeleccionarBorrar=false;
     }
+   public void editarCardinalidad(){
+       sePuedeSeleccionar=true;
+       sePuedeEditarCar=true;
+   }
 }
