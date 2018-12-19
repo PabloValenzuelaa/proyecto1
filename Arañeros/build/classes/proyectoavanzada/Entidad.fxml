@@ -25,7 +25,7 @@
       <Text fx:id="nombreEntidad" layoutX="128.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  " wrappingWidth="1.0" />
       <Pane fx:id="pane" layoutX="296.0" onMouseClicked="#dibujar" onMouseDragged="#transportar" prefHeight="720.0" prefWidth="1240.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFDS" underline="true">
+            <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFD" underline="true">
                <font>
                   <Font name="Arial" size="18.0" />
                </font>
@@ -112,12 +112,11 @@
             <Image url="@../chekfinal.PNG" />
          </image>
       </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="115.0" layoutX="89.0" layoutY="697.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="61.0" fitWidth="115.0" layoutX="89.0" layoutY="647.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../logo.PNG" />
          </image>
       </ImageView>
-      <Button layoutX="88.0" layoutY="659.0" mnemonicParsing="false" onAction="#editarCardinalidad" text="editar Cardinalidad" />
-      <Button layoutX="236.0" layoutY="492.0" mnemonicParsing="false" onAction="#doble" text="doble" />
+      <Button fx:id="botonCardinalidad" layoutX="228.0" layoutY="341.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="57.0" text="Cardinalidad" />
    </children>
 </AnchorPane>
