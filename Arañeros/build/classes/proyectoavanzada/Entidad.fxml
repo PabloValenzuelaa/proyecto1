@@ -25,7 +25,7 @@
       <Text fx:id="nombreEntidad" layoutX="128.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  " wrappingWidth="1.0" />
       <Pane fx:id="pane" layoutX="296.0" onMouseClicked="#dibujar" onMouseDragged="#transportar" prefHeight="720.0" prefWidth="1240.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFDS" underline="true">
+            <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFD" underline="true">
                <font>
                   <Font name="Arial" size="18.0" />
                </font>
@@ -83,13 +83,13 @@
       </Text>
       <CheckBox layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#puntosDeControl" text="Puntos de control" />
       <Button layoutX="130.0" layoutY="235.0" mnemonicParsing="false" onAction="#crearAtributo" prefHeight="17.0" prefWidth="32.0" text="Atributo" />
-      <Button fx:id="herencia" layoutX="28.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
+      <Button fx:id="herencia" layoutX="85.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
       <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="68.0" layoutY="221.0" onMousePressed="#crearAtributo" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../afinal.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="28.0" layoutY="306.0" onMouseClicked="#CrearHerecia" pickOnBounds="true">
+      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="85.0" layoutY="306.0" onMouseClicked="#CrearHerecia" pickOnBounds="true">
          <image>
             <Image url="@../hfinal.PNG" />
          </image>
@@ -117,10 +117,6 @@
             <Image url="@../logo.PNG" />
          </image>
       </ImageView>
-      <Button layoutX="161.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearAgregacion" prefHeight="59.0" prefWidth="123.0" text="Agregación">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
+      <Button fx:id="botonCardinalidad" layoutX="228.0" layoutY="341.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="57.0" text="Cardinalidad" />
    </children>
 </AnchorPane>

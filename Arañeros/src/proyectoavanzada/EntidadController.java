@@ -66,6 +66,8 @@ public class EntidadController implements Initializable {
     public int p=0;
     public int contadorPuntos=0;
     
+    @FXML
+    public Button botonCardinalidad;
     @FXML 
     public Circle circulo;
     public ContextMenu contextMenuAtributos = new ContextMenu();
@@ -137,6 +139,13 @@ public class EntidadController implements Initializable {
     public int objetoNumero=-1;
     public Atributo atributoCompuesto;
     
+
+    public Point puntoCar;
+    @FXML
+    Text textoCar;
+    
+    
+
     @FXML
     public void transportar(){
         
@@ -198,13 +207,16 @@ public class EntidadController implements Initializable {
                     punto.x=punto.x+20;
                     punto.y=punto.y+20;
                 }
-               
+                
                 Rectangulo rectangulito = entidades.get(i).rectangulo;
                 entidades.get(i).nombre.setLayoutX(posX-40);
                 entidades.get(i).nombre.setLayoutY(posY-20);
                 punto.x=punto.x-20;
                 punto.y=punto.y-20;
+                System.out.println("LAAEEELOOOOOOO");
+                
                 rectangulito.Mover(punto);
+                
                 for (int k = 0; k < circulos.size(); k++) {
                     pane.getChildren().remove(circulos.get(k));
                 }   
@@ -212,7 +224,6 @@ public class EntidadController implements Initializable {
                 contadorPuntos--;
                 puntosDeControl();
                 actualizarUniones();
-                
                 for (int j = 0; j < herencias.size(); j++) {
                         herencias.get(j).actualizar1();
                 }
@@ -265,6 +276,7 @@ public class EntidadController implements Initializable {
                     textito.setText("A "+atributos.size());
                 }
             }
+            
             textito.setLayoutX(posX+3);
             textito.setLayoutY(posY+10);            
             textito.setVisible(false);
@@ -332,7 +344,7 @@ public class EntidadController implements Initializable {
                         //dibujar linea que une
                         if(entidadesSeleccionadas.get(i) instanceof EntidadDebil){
                             entidadesSeleccionadas.get(i).relaciones.add(relacion2);
-                            Union union=new Union(relacion2, entidadesSeleccionadas.get(i), null);
+                            Union union=new Union(relacion2, entidadesSeleccionadas.get(i), null,puntoCar);
                             union.doble=true;
                             Line lineaa =union.getLinea();
                             uniones.add(union);
@@ -345,8 +357,22 @@ public class EntidadController implements Initializable {
                             
                         }
                         entidadesSeleccionadas.get(i).relaciones.add(relacion);
-                        Union union=new Union(relacion, entidadesSeleccionadas.get(i), null);
+                        Union union=new Union(relacion, entidadesSeleccionadas.get(i), null,puntoCar);
                         Line lineaa=union.getLinea();
+                        puntoCar=union.puntoCar;
+                        System.out.println("PUNTO: "+puntoCar);
+                        
+                        textito = new Text();
+                        textito.setFill(Color.BLACK);
+                        textito.setStyle(texto.getStyle());
+                        textito.setFont(texto.getFont());
+                        textito.setText("N");
+                        textito.setLayoutX(puntoCar.x);
+                        textito.setLayoutY(puntoCar.y);            
+                        textito.setVisible(true);
+                        pane.getChildren().add(textito);
+                        union.car=textito;
+                        
                         uniones.add(union);
                         lineaa.setStroke(Color.BLACK); //colo de la linea que une
                         lineaa.setStrokeWidth(1);
@@ -357,7 +383,7 @@ public class EntidadController implements Initializable {
                     }
                     if(entidadesSeleccionadas.size()==1){
                         relacion.unoAuno=true;
-                        Union union=new Union(relacion2, entidadesSeleccionadas.get(0), null);
+                        Union union=new Union(relacion2, entidadesSeleccionadas.get(0), null,puntoCar);
                         union.unoAuno=true;
                         Line lineaa=union.getLinea();
                         uniones.add(union);
@@ -1068,7 +1094,7 @@ public class EntidadController implements Initializable {
         contadorPuntos--;
         puntosDeControl();
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             pane.getChildren().add(linea);
@@ -1077,7 +1103,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1099,7 +1125,7 @@ public class EntidadController implements Initializable {
         puntosDeControl();
 
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1108,7 +1134,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1128,7 +1154,7 @@ public class EntidadController implements Initializable {
         contadorPuntos--;
         puntosDeControl();  
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1137,7 +1163,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1158,7 +1184,7 @@ public class EntidadController implements Initializable {
         puntosDeControl();  
         
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1167,7 +1193,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1187,7 +1213,7 @@ public class EntidadController implements Initializable {
         imagenTerminar.setVisible(true);
         atributo.dibujar();
         atributos.add(atributo);
-        Union union =new Union(null, null, atributo);
+        Union union =new Union(null, null, atributo,puntoCar);
         Line linea=union.CrearRelacionPoligono(atributoCompuesto.poligono, atributo.poligono);
         union.linea=linea;
         union.atributo2=atributoCompuesto;
@@ -1210,7 +1236,7 @@ public class EntidadController implements Initializable {
         atributos.add(atributo);
         atributoCompuesto=atributo;
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             entidadesSeleccionadas.get(0).atributos.add(atributo);
@@ -1222,7 +1248,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1247,7 +1273,7 @@ public class EntidadController implements Initializable {
         contadorPuntos--;
         puntosDeControl();
         if(atributoEntidad){
-            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo);
+            Union union =new Union(null, entidadesSeleccionadas.get(0), atributo,puntoCar);
             Line linea=union.CrearRelacion(atributo.poligono);
             union.linea=linea;
             entidadesSeleccionadas.get(0).atributos.add(atributo);
@@ -1257,7 +1283,7 @@ public class EntidadController implements Initializable {
         }
         else if (atributoRelacion){
             //FUNCION UNION
-            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo);
+            Union union =new Union(relacionesSeleccionadas.get(0),null, atributo,puntoCar);
             Line linea=union.CrearRelacionPoligono(relacionesSeleccionadas.get(0).poligono,atributo.poligono);
             union.linea=linea;
             uniones.add(union);
@@ -1317,10 +1343,16 @@ public class EntidadController implements Initializable {
     public void actualizarUniones(){
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().remove(uniones.get(i).linea);
+            if(uniones.get(i).car!=null){
+                pane.getChildren().remove(uniones.get(i).car);
+            }
             
         }
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().add(uniones.get(i).getLinea());
+            if(uniones.get(i).car!=null){
+                pane.getChildren().add(uniones.get(i).getCar());
+            }
             
         }
         
@@ -1371,7 +1403,7 @@ public class EntidadController implements Initializable {
                     else if(uniones.get(i).relacion.entidadesSelec.size()==1){
                         for (int j = 0; j < uniones.size(); j++){
                             if(uniones.get(j).relacion==uniones.get(i).relacion &&uniones.get(j).entidad==uniones.get(i).relacion.entidadesSelec.get(0)){
-                                Union union=(new Union(uniones.get(j).relacion, uniones.get(j).entidad,null));
+                                Union union=(new Union(uniones.get(j).relacion, uniones.get(j).entidad,null,puntoCar));
                                 union.unoAuno=true;
                                 union.CrearRelacion(uniones.get(j).relacion.poligono);
                                 uniones.add(union);
