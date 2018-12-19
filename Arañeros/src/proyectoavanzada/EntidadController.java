@@ -138,6 +138,7 @@ public class EntidadController implements Initializable {
     public Atributo atributoCompuesto;
     public boolean seMueveElemento=false;
     public boolean seMueveAgr=false;
+    public Point puntoDif= new Point();
     @FXML
     public void transportar(){
          //para saber si muevo alguna entidad/relacion/atributo y diferenciarlo de agregacion
@@ -241,29 +242,31 @@ public class EntidadController implements Initializable {
             for (int j = 0; j < agregaciones.size(); j++) {
                 if(interseccionTransportarAgregacion(agregaciones.get(j).rectanguloAgregacion.punto1,
                     agregaciones.get(j).rectanguloAgregacion.punto3,punto)){
-                    Point puntoDif= new Point();
-                    puntoDif.setLocation(punto);
                     //movemos las entidades
                     for (int i = 0; i < agregaciones.get(j).relacion.entidadesSelec.size(); i++) {
-                        puntoDif= new Point();
                         puntoDif.setLocation(punto);
                         puntoDif.x=puntoDif.x+(agregaciones.get(j).relacion.entidadesSelec.get(i).rectangulo.punto.x-agregaciones.get(j).puntoCentral.x);
                         puntoDif.y=puntoDif.y+(agregaciones.get(j).relacion.entidadesSelec.get(i).rectangulo.punto.y-agregaciones.get(j).puntoCentral.y);
+                        puntoDif.x=puntoDif.x+300;
+                        puntoDif.y=puntoDif.y+25;
+                        agregaciones.get(j).relacion.entidadesSelec.get(i).nombre.setLayoutX(puntoDif.x-290);
+                        agregaciones.get(j).relacion.entidadesSelec.get(i).nombre.setLayoutY(puntoDif.y);
                         agregaciones.get(j).relacion.entidadesSelec.get(i).rectangulo.Mover(puntoDif);
                     }
-                    System.out.println("");
                     //movemos la relacion
-                    puntoDif= new Point();
                     puntoDif.setLocation(punto);
                     puntoDif.x=puntoDif.x+(agregaciones.get(j).puntoCentral.x-agregaciones.get(j).relacion.poligono.punto.x);
                     puntoDif.y=puntoDif.y+(agregaciones.get(j).puntoCentral.y-agregaciones.get(j).relacion.poligono.punto.y);
+                    puntoDif.x=puntoDif.x+300;
+                    agregaciones.get(j).relacion.nombre.setLayoutX(puntoDif.x-310);
+                    agregaciones.get(j).relacion.nombre.setLayoutY(puntoDif.y-10);
                     agregaciones.get(j).relacion.poligono.mover(puntoDif);
 
                     /*
                     mover los elementos que contenga la relacion de la agregacion
                     dandole el punto de diferencia
                     */
-                    agregaciones.get(j).rectanguloAgregacion.Mover(punto, pane);
+                    agregaciones.get(j).mover(punto, pane);
                     actualizarUniones();
                     seMueveElemento=true;
                 }
@@ -711,10 +714,15 @@ public class EntidadController implements Initializable {
     
     @FXML
     public void CrearAgregacion(){
+        for (int i = 0; i < entidadesSeleccionadas.size(); i++) {
+            entidadesSeleccionadas.get(i).rectangulo.Borrar();
+            entidadesSeleccionadas.get(i).rectangulo.Dibujar();
+            entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+        }
         sePuedeCrearAgregacion=true;
         sePuedeSeleccionar=true;
         botonCrear.setVisible(true);
-        
+        entidadesSeleccionadas.clear();
         textoBotonCrear.setText("Crear");
         insertarTexto1.setText("");
         insertarTexto1.setVisible(true);

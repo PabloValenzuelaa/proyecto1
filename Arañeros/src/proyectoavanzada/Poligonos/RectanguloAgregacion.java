@@ -54,7 +54,7 @@ public class RectanguloAgregacion {
         punto3 = new Point();
         punto3.setLocation(punto);
         punto3.y=punto3.y+80;
-        punto3.x=punto3.x+120;
+        punto3.x=punto3.x+200;
         //this.punto3.x+=80;
 
         /*

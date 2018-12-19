@@ -6,6 +6,7 @@
 package proyectoavanzada;
 
 import java.awt.Point;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
@@ -25,7 +26,7 @@ public class Agregacion extends Entidad{
     //public Line linea;
 
     public Agregacion(Relacion relacion, Point puntoCentral, Line lineaa, Text nombre, Rectangulo rectangulo) {
-        super(nombre, null);
+        super(nombre, rectangulo);
         this.relacion = relacion;
         this.puntoCentral = puntoCentral;
         
@@ -51,8 +52,8 @@ public class Agregacion extends Entidad{
         punto3.setLocation(puntoCentral);
         punto1.x-=200;
         punto1.y-=100;
-        
-        punto3.x+=80;
+
+        punto3.x+=200;
         punto3.y+=80;
 
         //relacion a 2 entidades
@@ -62,7 +63,7 @@ public class Agregacion extends Entidad{
             entidad2.rectangulo.PosicionAgregacionDer(puntoEntidad2);
             entidad2.nombre.setLayoutX(puntoEntidad1.x+25);
             entidad2.nombre.setLayoutY(puntoEntidad1.y);
-            punto3.x+=120;
+            //punto3.x+=120;
         }
         /*
             this.linea = new Line(puntoCentral.x,puntoCentral.y,puntoCentral.x+10,puntoCentral.y+10);
@@ -73,4 +74,10 @@ public class Agregacion extends Entidad{
         RectanguloAgregacion aaa = new RectanguloAgregacion(punto1,punto3);
         this.rectanguloAgregacion = aaa;
     }
+    public void mover(Point punto,Pane pane){
+        
+        this.puntoCentral=punto;
+        rectanguloAgregacion.Mover(punto, pane);
+    }
+    
 }

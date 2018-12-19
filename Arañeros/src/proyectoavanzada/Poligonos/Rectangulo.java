@@ -101,14 +101,14 @@ import javafx.scene.shape.StrokeLineCap;
 
     }
     
-    public void Mover(Point punto) {
+    public void Mover(Point puntoo) {
         Borrar();
         
         puntos.clear();
 
-        punto= new Point((punto.x)-300,punto.y-25);
+        punto= new Point((puntoo.x)-300,puntoo.y-25);
         puntos.add(punto);
-        this.punto = punto;
+        //punto = puntoo;
         punto2= new Point((int) ((punto.x)+largo),punto.y);
         puntos.add(punto2);
 
