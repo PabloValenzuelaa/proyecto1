@@ -30,9 +30,6 @@ public class RectanguloAgregacion {
         this.punto1=punto1;
         this.punto3=punto3;
         
-        System.out.println("punto1: "+punto1.x+" "+punto1.y);
-        
-        System.out.println("punto3: "+punto3.x+" "+punto3.y);
         this.lineaSuperior= new Line(punto1.x,punto1.y,punto3.x,punto1.y);
         this.lineaInferior= new Line(punto3.x,punto3.y,punto1.x,punto3.y);
         this.lineaIzquierda= new Line(punto1.x,punto1.y,punto1.x,punto3.y);
@@ -40,31 +37,62 @@ public class RectanguloAgregacion {
 
     }
     
-    public void Mover(Point punto,Pane pane,boolean sonDos) {
+    public void Mover(Point punto,Pane pane) {
         Borrar(pane);
         //GENERAR PUNTO 1 Y 3
-        Point punto1=new Point();
-        punto1.setLocation(punto);
-        Point punto3=new Point();
-        punto3.setLocation(punto);
-        punto1.x-=200;
-        punto1.y-=100;
+        Point puntoo1=new Point();
+        puntoo1.setLocation(punto);
         
-        punto3.x+=80;
-        punto3.y+=80;
-        if(sonDos){
+        Point puntoo3=new Point();
+        puntoo3.setLocation(punto);
+        
+        punto1 = new Point();
+        punto1.setLocation(punto);
+        punto1.x=punto1.x-200;
+        punto1.y=punto1.y-100;
+
+        punto3 = new Point();
+        punto3.setLocation(punto);
+        punto3.y=punto3.y+80;
+        punto3.x=punto3.x+120;
+        //this.punto3.x+=80;
+
+        /*
+        if (relacion.entidadesSelec.size()==2){
             punto3.x+=120;
-        }
+        */
+        /*
+        this.lineaInferior.setStartX(punto3.x);
+        this.lineaInferior.setStartY(punto3.y);
+        this.lineaInferior.setEndX(punto1.x);
+        this.lineaInferior.setEndY(punto3.y);
+
+        this.lineaSuperior.setStartX(punto1.x);
+        this.lineaSuperior.setStartY(punto1.y);
+        this.lineaSuperior.setEndX(punto3.x);
+        this.lineaSuperior.setEndY(punto1.y);
+        
+        this.lineaIzquierda.setStartX(punto1.x);
+        this.lineaIzquierda.setStartY(punto1.y);
+        this.lineaIzquierda.setEndX(punto1.x);
+        this.lineaIzquierda.setEndY(punto3.y);
+        
+        this.lineaDerecha.setStartX(punto3.x);
+        this.lineaDerecha.setStartY(punto1.y);
+        this.lineaDerecha.setEndX(punto3.x);
+        this.lineaDerecha.setEndY(punto3.y);
+        */
         this.lineaSuperior= new Line(punto1.x,punto1.y,punto3.x,punto1.y);
         this.lineaInferior= new Line(punto3.x,punto3.y,punto1.x,punto3.y);
         this.lineaIzquierda= new Line(punto1.x,punto1.y,punto1.x,punto3.y);
         this.lineaDerecha= new Line(punto3.x,punto1.y,punto3.x,punto3.y);        
+          
+        
         Dibujar(pane);
     }
     
 
     public void Dibujar(Pane pane) {
-        System.out.println("PINTAAAAAAA");
         lineaSuperior.setStroke(Color.BLACK);
         lineaSuperior.setStrokeWidth(1);
         lineaSuperior.setStrokeLineCap(StrokeLineCap.ROUND);
