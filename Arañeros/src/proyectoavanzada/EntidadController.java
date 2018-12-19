@@ -284,6 +284,7 @@ public class EntidadController implements Initializable {
                 Relacion relacion2= new RelaciónDebil(poligono2,textito,poligono,entidadesSeleccionadas);
                 modificaciones.add(relacion);
                 modificaciones.add(relacion2);
+                
                 if(entidadesSeleccionadas.size()>0){
                     if(entidadesSeleccionadas.size()==1||entidadesSeleccionadas.size()==2){
                         for (int i = 0; i < entidadesSeleccionadas.size(); i++) { //busco si hay una entidad debil
@@ -337,7 +338,7 @@ public class EntidadController implements Initializable {
                             
                         }
                         entidadesSeleccionadas.get(i).relaciones.add(relacion);
-                        Union union=new Union(relacion, entidadesSeleccionadas.get(i), null);
+                        Union union=new Union(relacion2, entidadesSeleccionadas.get(i), null);
                         Line lineaa=union.getLinea();
                         uniones.add(union);
                         lineaa.setStroke(Color.BLACK); //colo de la linea que une
@@ -536,20 +537,26 @@ public class EntidadController implements Initializable {
                 punto.x-=300;
                 punto.y-=25;
                 for (int i = 0; i < relaciones.size(); i++) {
-                    System.out.println("jhds");
                     if (relaciones.get(i).poligono.seleccionar(punto)){
-                        System.out.println("aaa");
+                        if(relaciones.get(i) instanceof RelaciónDebil){
+                            borrarRelacion(relaciones.get(i+1));
+                        }
+                        modificaciones.add(relaciones.get(i));
                         borrarRelacion(relaciones.get(i));
                     }
                 }
                 for (int i = 0; i < atributos.size(); i++) {
                     if (atributos.get(i).poligono.seleccionar(punto)){
+                        modificaciones.add(atributos.get(i));
                         borrarAtributo(atributos.get(i));
+                        atributos.remove(atributos.get(i));
+                        
                     }
                 }
                 for (int i = 0; i < entidades.size(); i++) {
                     if (interseccionRectangulo(entidades.get(i), punto)){
                         borrarEntidad(entidades.get(i));
+                        modificaciones.add(entidades.get(i));
                     }
                 }
                 for (int i = 0; i < borradas.size(); i++) {
@@ -583,9 +590,11 @@ public class EntidadController implements Initializable {
         
         if(entidadesSeleccionadas.size()>0){
             for (int i = 0; i < entidadesSeleccionadas.size(); i++) {
-                entidadesSeleccionadas.get(i).rectangulo.Borrar();
-                entidadesSeleccionadas.get(i).rectangulo.Dibujar();
-                entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+                if(entidades.contains(entidadesSeleccionadas.get(i))){
+                    entidadesSeleccionadas.get(i).rectangulo.Borrar();
+                    entidadesSeleccionadas.get(i).rectangulo.Dibujar();
+                    entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+                }
             }
         }
     }
@@ -1385,14 +1394,12 @@ public class EntidadController implements Initializable {
             EntidadDebil entidadDebil=(EntidadDebil)entidad;
             entidadDebil.rectangulo2.Borrar();
         }
-        modificaciones.add(entidad);
         entidades.remove(entidad);
         pane.getChildren().remove(entidad.nombre);
         entidades.remove(entidad);
         sePuedeSeleccionarBorrar=false;
     }
     public void borrarRelacion(Relacion relacion){
-        System.out.println(relaciones.size());
          for (int i = 0; i < uniones.size(); i++){
              if(uniones.get(i).relacion!=null &&uniones.get(i).relacion==relacion){
                  borradas.add(uniones.get(i));
@@ -1402,15 +1409,14 @@ public class EntidadController implements Initializable {
                  
              }
              
+             
          }
         if(relacion instanceof RelaciónDebil){
             RelaciónDebil relacionDebil=(RelaciónDebil)relacion;
             relaciones.remove(relacionDebil);
-            modificaciones.add(relacionDebil);
             relacionDebil.poligono2.borrar();
         }
         relacion.poligono.borrar();
-        modificaciones.add(relacion);
         relaciones.remove(relacion);
         pane.getChildren().remove(relacion.nombre);
         sePuedeSeleccionarBorrar=false;
@@ -1430,8 +1436,6 @@ public class EntidadController implements Initializable {
                 }
             }
         }
-        modificaciones.add(atributo);
-        atributos.remove(atributo);
         atributo.poligono.borrar();
         pane.getChildren().remove(atributo.texto);
         sePuedeSeleccionarBorrar=false;
@@ -1439,32 +1443,111 @@ public class EntidadController implements Initializable {
     @FXML 
     public void undo(){
         int size=modificaciones.size();
+        if(size==0){
+            return;
+        }
+        if(modificaciones.get(size-1) instanceof ArrayList ){
+            ArrayList<Union> unioness=(ArrayList)modificaciones.get(size-1);
+            
+            for (int i = 0; i < unioness.size(); i++) {
+                uniones.add(unioness.get(i));
+                pane.getChildren().add(unioness.get(i).linea);
+                if(unioness.get(i).atributo!=null &&!atributos.contains(unioness.get(i).atributo)){//si se borro un atributo
+                    atributos.add(uniones.get(i).atributo);
+                    unioness.get(i).atributo.dibujar();
+                    pane.getChildren().add(atributos.get(i).texto);
+                }
+                
+                if(unioness.get(i).atributo2!=null &&!atributos.contains(unioness.get(i).atributo2)){//si se borro el otro atributo
+                    atributos.add(unioness.get(i).atributo2);
+                    unioness.get(i).atributo2.dibujar();
+                    pane.getChildren().add(atributos.get(i).texto);
+                }
+                /**
+                if(uniones.get(i).entidad!=null &&!entidades.contains(uniones.get(i).entidad)){//si se borro una entidad
+                    entidades.add(uniones.get(i).entidad);
+                   
+                    if (uniones.get(i).entidad instanceof EntidadDebil){
+                         EntidadDebil entidadDebil = (EntidadDebil)uniones.get(i).entidad;
+                         entidadDebil.rectangulo2.MoverRecantulo2(uniones.get(i).entidad.rectangulo.punto);
+                     }
+
+                     Rectangulo rectangulito = uniones.get(i).entidad.rectangulo;
+                     pane.getChildren().add(uniones.get(i).entidad.nombre);
+                     rectangulito.Dibujar();
+                     for (int k = 0; k < circulos.size(); k++) {
+                         pane.getChildren().remove(circulos.get(k));
+                     }   
+
+                     contadorPuntos--;
+                     puntosDeControl();
+                     actualizarUniones();
+
+                     for (int j = 0; j < herencias.size(); j++) {
+                             herencias.get(j).actualizar1();
+                     }
+
+                }
+                if(uniones.get(i).relacion!=null &&!relaciones.contains(uniones.get(i).relacion)){//si se borro una relacion
+                    relaciones.add(uniones.get(i).relacion);
+                    
+                    if(uniones.get(i).relacion instanceof RelaciónDebil){
+                        Poligono poligono2 = uniones.get(i).relacion.poligono;
+                        RelaciónDebil nv= (RelaciónDebil)uniones.get(i).relacion;
+                        nv.poligono2.mover(uniones.get(i).relacion.poligono.punto);
+                        contadorPuntos--;
+                        puntosDeControl();
+                    }
+                    pane.getChildren().add(uniones.get(i).relacion.nombre);
+                    uniones.get(i).relacion.poligono.mover(uniones.get(i).relacion.poligono.punto);
+                    if(uniones.get(i).relacion instanceof RelaciónDebil){
+                        RelaciónDebil relacionDebil=(RelaciónDebil)uniones.get(i).relacion;
+                        relacionDebil.poligono2.mover(uniones.get(i).relacion.poligono.punto);
+
+                    }
+                    for (int k = 0; k < circulos.size(); k++) {
+                        pane.getChildren().remove(circulos.get(k));
+                    } 
+                    contadorPuntos--;
+                    puntosDeControl();
+                    actualizarUniones();
+                }
+                 */
+                
+            }
+            
+        }
         if(modificaciones.get(size-1) instanceof Entidad){//quiere decir que lo ultimo que se creo fue una entidad, por lo se se procede a borrar esta
                 borrarEntidad((Entidad)modificaciones.get(size-1));
-                modificaciones.remove(size);
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
                 }
-                //agregams este objeto a una llista de objetos 
                 borradas.clear();
+                //agregams este objeto a una llista de objetos 
                 
         }
         if(modificaciones.get(size-1) instanceof Relacion){//quiere decir que lo ultimo que se creo fue una Relacción, por lo se se procede a borrar esta
-                borrarRelacion((Relacion)modificaciones.get(size-1));
-                for (int i = 0; i < borradas.size(); i++) {
-                    uniones.remove(borradas.get(i));
-                    pane.getChildren().remove(borradas.get(i).linea);
-                }
-                borradas.clear();
+            borrarRelacion((Relacion)modificaciones.get(size-1));
+            relaciones.remove((Relacion)modificaciones.get(size-1));
+
+            for (int i = 0; i < borradas.size(); i++) {
+                uniones.remove(borradas.get(i));
+                pane.getChildren().remove(borradas.get(i).linea);
+            }
+            modificaciones.remove(size-1);
+            size-=1;
+            borradas.clear();
         }
         if(modificaciones.get(size-1) instanceof Atributo){//quiere decir que lo ultimo que se creo fue una Relacción, por lo se se procede a borrar esta
                 borrarAtributo((Atributo)modificaciones.get(size-1));
+                atributos.remove((Atributo)modificaciones.get(size-1));
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
-                }
+                }                
                 borradas.clear();
         }
+        modificaciones.remove(size-1);
     }
 }
