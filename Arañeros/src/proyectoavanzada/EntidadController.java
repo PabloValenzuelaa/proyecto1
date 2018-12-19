@@ -357,6 +357,7 @@ public class EntidadController implements Initializable {
                 sePuedeCrearEntidad=false;
             }
             else if(sePuedeCrearRelacion){
+                System.out.println("SE CREA RELÁCION");
                 //textito.setVisible(true);
                 Poligono poligono=new Poligono(pane);
                 Poligono poligono2= new Poligono(pane);
@@ -428,6 +429,7 @@ public class EntidadController implements Initializable {
                         textito.setLayoutX(puntoCar.x);
                         textito.setLayoutY(puntoCar.y);            
                         textito.setVisible(true);
+                        System.out.println("TEXTON");
                         pane.getChildren().add(textito);
                         union.car=textito;
                         
