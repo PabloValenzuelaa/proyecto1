@@ -112,10 +112,15 @@
             <Image url="@../chekfinal.PNG" />
          </image>
       </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="115.0" layoutX="89.0" layoutY="647.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="61.0" fitWidth="115.0" layoutX="89.0" layoutY="697.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../logo.PNG" />
          </image>
       </ImageView>
+<<<<<<< HEAD
+=======
+      <Button layoutX="88.0" layoutY="659.0" mnemonicParsing="false" onAction="#editarCardinalidad" text="editar Cardinalidad" />
+      <Button layoutX="236.0" layoutY="492.0" mnemonicParsing="false" onAction="#doble" text="doble" />
+>>>>>>> Matias/Cardinalidad
    </children>
 </AnchorPane>

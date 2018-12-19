@@ -37,6 +37,10 @@ public class Union {
     Line linea;
     
     public Point puntoCar;
+
+    public void setCar(Text car) {
+        this.car = car;
+    }
     
 
     public Union(Relacion relacion, Entidad entidad, Atributo atributo,Point puntoCar) {
