@@ -143,6 +143,7 @@ public class EntidadController implements Initializable {
     @FXML
     Text textoCar;
     
+    public boolean sePuedeDibujarDoble=false;
     
     
     
@@ -499,6 +500,24 @@ public class EntidadController implements Initializable {
                             seSeleccionoAtributo=false;
                             seSeleccionoHerencia=false;
                             objetoNumero=i;
+                        }
+                        if(sePuedeDibujarDoble){
+                            if(entidades.get(i) instanceof Entidad){
+                                for (int j = 0; j < entidades.get(i).relaciones.size(); j++) {
+                                    Union union=new Union(entidades.get(i).relaciones.get(j), entidadesSeleccionadas.get(i), null,puntoCar);
+                                    union.doble=true;
+                                    Line lineaa =union.getLinea();
+                                    uniones.add(union);
+                                    lineaa.setStroke(Color.BLACK); //color de la linea que une
+                                    lineaa.setStrokeWidth(1);
+                                    lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
+                                    pane.getChildren().add(lineaa);
+                                    entidadesSeleccionadas.get(i).getLineas().add(lineaa);
+                                    //relacion2.getLineas().add(lineaa);
+                                }
+                            }
+                            sePuedeDibujarDoble=false;
+                            sePuedeSeleccionar=false;
                         }
                         entidadesSeleccionadas.add(entidades.get(i));
                     }
@@ -1489,5 +1508,9 @@ public class EntidadController implements Initializable {
    public void editarCardinalidad(){
        sePuedeSeleccionar=true;
        sePuedeEditarCar=true;
+   }
+   public void doble(){
+       sePuedeSeleccionar=true;
+       sePuedeDibujarDoble=true;
    }
 }
