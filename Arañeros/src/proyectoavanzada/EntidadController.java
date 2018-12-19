@@ -251,7 +251,7 @@ public class EntidadController implements Initializable {
                         puntoDif.y=puntoDif.y+(agregaciones.get(j).relacion.entidadesSelec.get(i).rectangulo.punto.y-agregaciones.get(j).puntoCentral.y);
                         agregaciones.get(j).relacion.entidadesSelec.get(i).rectangulo.Mover(puntoDif);
                     }
-
+                    System.out.println("");
                     //movemos la relacion
                     puntoDif= new Point();
                     puntoDif.setLocation(punto);
