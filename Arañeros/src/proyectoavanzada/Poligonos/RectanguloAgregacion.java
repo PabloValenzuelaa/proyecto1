@@ -117,12 +117,18 @@ public class RectanguloAgregacion {
         pane.getChildren().add(lineaDerecha);
     }
     
-    public void Dibujar2() {
+    public void PintarColorCrimson() {
         lineaSuperior.setStroke(Color.CRIMSON);
         lineaInferior.setStroke(Color.CRIMSON);
         lineaIzquierda.setStroke(Color.CRIMSON);
         lineaDerecha.setStroke(Color.CRIMSON);
         
+    }
+    public void repintarNegro(){
+        lineaSuperior.setStroke(Color.BLACK);
+        lineaInferior.setStroke(Color.BLACK);
+        lineaIzquierda.setStroke(Color.BLACK);
+        lineaDerecha.setStroke(Color.BLACK);
     }
     
 
