@@ -117,6 +117,7 @@
             <Image url="@../logo.PNG" />
          </image>
       </ImageView>
-      <Button fx:id="undo" layoutX="14.0" layoutY="416.0" mnemonicParsing="false" onAction="#undo" text="Button" />
+      <Button fx:id="undo" layoutX="14.0" layoutY="416.0" mnemonicParsing="false" onAction="#undo" text="undo" />
+      <Button fx:id="redoButton" layoutX="16.0" layoutY="459.0" mnemonicParsing="false" onAction="#redo" text="redo" />
    </children>
 </AnchorPane>
