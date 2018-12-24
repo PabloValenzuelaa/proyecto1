@@ -347,12 +347,12 @@ public class EntidadController implements Initializable {
                 Relacion relacion = new Relacion(textito,poligono,entidadesSeleccionadas);
                 Relacion relacion2= new RelaciónDebil(poligono2,textito,poligono,entidadesSeleccionadas);
                 modificaciones.add(relacion);
-                modificaciones.add(relacion2);
                 if(entidadesSeleccionadas.size()>0){
                     if(entidadesSeleccionadas.size()==1||entidadesSeleccionadas.size()==2){
                         for (int i = 0; i < entidadesSeleccionadas.size(); i++) { //busco si hay una entidad debil
                             if(entidadesSeleccionadas.get(i) instanceof EntidadDebil){
                                 poligono2.Dibujar(4, (int) 75+5, punto);
+                                relacion=relacion2;
                                 relaciones.add(relacion2);
                                 break;
                             }
@@ -417,7 +417,7 @@ public class EntidadController implements Initializable {
                     }
                     if(entidadesSeleccionadas.size()==1){
                         relacion.unoAuno=true;
-                        Union union=new Union(relacion2, entidadesSeleccionadas.get(0), null);
+                        Union union=new Union(relacion, entidadesSeleccionadas.get(0), null);
                         union.unoAuno=true;
                         Line lineaa=union.getLinea();
                         uniones.add(union);
@@ -638,23 +638,25 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < relaciones.size(); i++) {
                     //entidades.get(i).rectangulo.imprimirPuntos();
                     if (relaciones.get(i).poligono.seleccionar(punto)){
+                        modificaciones.add(relaciones.get(i));
                         borrarRelacion(relaciones.get(i));
+                        relaciones.remove(relaciones.get(i));
                     }
-                    modificaciones.add(relaciones.get(i));
                 }
                 for (int i = 0; i < atributos.size(); i++) {
                     //entidades.get(i).rectangulo.imprimirPuntos();
                     if (atributos.get(i).poligono.seleccionar(punto)){
+                        modificaciones.add(atributos.get(i));
                         borrarAtributo(atributos.get(i));
                     }
-                    modificaciones.add(atributos.get(i));
+                    
                 }
                 for (int i = 0; i < entidades.size(); i++) {
                     //entidades.get(i).rectangulo.imprimirPuntos();
                     if (interseccionRectangulo(entidades.get(i), punto)){
+                        modificaciones.add(entidades.get(i));
                         borrarEntidad(entidades.get(i));
                     }
-                    modificaciones.add(entidades.get(i));
                 }
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
@@ -1617,6 +1619,8 @@ public class EntidadController implements Initializable {
     }
     public void borrarRelacion(Relacion relacion){
          for (int i = 0; i < uniones.size(); i++){
+             System.out.println(uniones.get(i).relacion!=null);
+             System.out.println(uniones.get(i).relacion==relacion);
              if(uniones.get(i).relacion!=null &&uniones.get(i).relacion==relacion){
                  borradas.add(uniones.get(i));
                  if(uniones.get(i).atributo!=null){
@@ -1629,6 +1633,7 @@ public class EntidadController implements Initializable {
         if(relacion instanceof RelaciónDebil){
             RelaciónDebil relacionDebil=(RelaciónDebil)relacion;
             relacionDebil.poligono2.borrar();
+            System.out.println("hs");
         }
         relacion.poligono.borrar();
         relaciones.remove(relacion);
