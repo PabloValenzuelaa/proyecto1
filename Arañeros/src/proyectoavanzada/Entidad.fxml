@@ -30,18 +30,18 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Text>
-            <Circle fx:id="circulo" fill="#ffa81f" layoutX="100.0" layoutY="240.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="circulo" fill="#ffa81f" layoutX="113.0" layoutY="249.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </Pane>
       <Button fx:id="botonEntidad" layoutX="87.0" layoutY="35.0" mnemonicParsing="false" onAction="#crearEntidad" prefHeight="56.0" prefWidth="113.0" text="Entidad ">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Text fx:id="nombre" layoutX="69.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
+      <Text fx:id="nombre" layoutX="35.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
          <font>
             <Font size="17.0" />
          </font></Text>
-      <Button fx:id="botonCrear" layoutX="106.0" layoutY="437.0" mnemonicParsing="false" onAction="#crear" prefHeight="42.0" prefWidth="81.0" textFill="WHITE">
+      <Button fx:id="botonCrear" layoutX="196.0" layoutY="391.0" mnemonicParsing="false" onAction="#crear" prefHeight="42.0" prefWidth="81.0" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -55,7 +55,7 @@
                </light>
             </Lighting>
          </effect></Button>
-      <TextField fx:id="insertarTexto1" layoutX="69.0" layoutY="396.0" prefHeight="32.0" prefWidth="154.0" />
+      <TextField fx:id="insertarTexto1" layoutX="29.0" layoutY="396.0" prefHeight="32.0" prefWidth="154.0" />
       <ImageView fitHeight="57.0" fitWidth="66.0" layoutX="73.0" layoutY="590.0" onMouseClicked="#limpiar" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../limpiar.png" />
@@ -76,20 +76,20 @@
             <Image url="@../guardar.PNG" />
          </image>
       </ImageView>
-      <Text fx:id="textoBotonCrear" fill="WHITE" layoutX="123.0" layoutY="466.0" onMouseClicked="#crear" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
+      <Text fx:id="textoBotonCrear" fill="WHITE" layoutX="213.0" layoutY="420.0" onMouseClicked="#crear" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <CheckBox layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#puntosDeControl" text="Puntos de control" />
+      <CheckBox layoutX="228.0" layoutY="537.0" mnemonicParsing="false" onAction="#puntosDeControl" text="Puntos de control" />
       <Button layoutX="130.0" layoutY="235.0" mnemonicParsing="false" onAction="#crearAtributo" prefHeight="17.0" prefWidth="32.0" text="Atributo" />
-      <Button fx:id="herencia" layoutX="85.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
-      <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="68.0" layoutY="221.0" onMousePressed="#crearAtributo" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="herencia" layoutX="28.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
+      <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="68.0" layoutY="221.0" onMousePressed="#CrearAgregacion" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../afinal.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="85.0" layoutY="306.0" onMouseClicked="#CrearHerecia" pickOnBounds="true">
+      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="28.0" layoutY="306.0" onMouseClicked="#CrearHerecia" pickOnBounds="true">
          <image>
             <Image url="@../hfinal.PNG" />
          </image>
@@ -97,7 +97,7 @@
       <Button fx:id="terminar" layoutX="236.0" layoutY="437.0" mnemonicParsing="false" onAction="#terminar" prefHeight="42.0" prefWidth="40.0" text="terminar" />
       <Button layoutX="173.0" layoutY="517.0" mnemonicParsing="false" onAction="#editar" prefHeight="56.0" prefWidth="56.0" text="Editar" />
       <Button layoutX="74.0" layoutY="517.0" mnemonicParsing="false" onAction="#seleccionar" prefHeight="56.0" prefWidth="56.0" text="Borrar" />
-      <ImageView fitHeight="61.0" fitWidth="56.0" layoutX="74.0" layoutY="518.0" onMouseClicked="#seleccionar" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="61.0" fitWidth="56.0" layoutX="29.0" layoutY="472.0" onMouseClicked="#seleccionar" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../borrarfinal.PNG" />
          </image>
@@ -117,7 +117,12 @@
             <Image url="@../logo.PNG" />
          </image>
       </ImageView>
-      <Button fx:id="undo" layoutX="14.0" layoutY="416.0" mnemonicParsing="false" onAction="#undo" text="undo" />
-      <Button fx:id="redoButton" layoutX="16.0" layoutY="459.0" mnemonicParsing="false" onAction="#redo" text="redo" />
+      <Button layoutX="223.0" layoutY="545.0" mnemonicParsing="false" text="Undo" />
+      <Button layoutX="214.0" layoutY="590.0" mnemonicParsing="false" text="Redo" />
+      <Button layoutX="162.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearAgregacion" prefHeight="59.0" prefWidth="123.0" text="Agregación">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
