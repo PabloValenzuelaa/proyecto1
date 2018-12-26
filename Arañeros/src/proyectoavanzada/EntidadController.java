@@ -554,6 +554,7 @@ public class EntidadController implements Initializable {
                         }
                         entidadesSeleccionadas.add(entidades.get(i));
                     }
+                    
                 }
                 punto.x=punto.x-300;
                 for (int i = 0; i < relaciones.size(); i++) {
@@ -1773,7 +1774,6 @@ public class EntidadController implements Initializable {
                 }
                 borradas.clear();
             }else{
-                System.out.println("hdsj");
                 Relacion relacion=(Relacion)redo.get(size-1);
                 relaciones.add(relacion);
                 relacion.poligono.mover(relacion.poligono.punto);
@@ -1807,7 +1807,8 @@ public class EntidadController implements Initializable {
                 atributo.dibujar();
                 pane.getChildren().add(atributo.texto);
                 Union union=new Union(atributo.relacion, atributo.entidad, atributo);
-                uniones.add(union);
+                System.out.println(atributo.relacion);
+                System.out.println(atributo.entidad);
                 if(atributo.tipo==TipoAtributo.compuesto){
                     if(atributo.atributos.size()>0){
                         for (int j = 0; j < atributo.atributos.size(); j++) {

@@ -84,7 +84,7 @@
       <CheckBox layoutX="32.0" layoutY="458.0" mnemonicParsing="false" onAction="#puntosDeControl" text="Puntos de control" />
       <Button layoutX="130.0" layoutY="235.0" mnemonicParsing="false" onAction="#crearAtributo" prefHeight="17.0" prefWidth="32.0" text="Atributo" />
       <Button fx:id="herencia" layoutX="28.0" layoutY="306.0" mnemonicParsing="false" onAction="#CrearHerecia" prefHeight="59.0" prefWidth="123.0" text="Herencia" />
-      <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="68.0" layoutY="221.0" onMousePressed="#CrearAgregacion" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="66.0" fitWidth="168.0" layoutX="65.0" layoutY="221.0" onMouseClicked="#crearAtributo" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../afinal.png" />
          </image>
