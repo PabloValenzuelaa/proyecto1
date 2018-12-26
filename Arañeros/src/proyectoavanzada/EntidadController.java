@@ -201,7 +201,6 @@ public class EntidadController implements Initializable {
                 entidades.get(i).nombre.setLayoutY(posY-20);
                 punto.x=punto.x-20;
                 punto.y=punto.y-20;
-                System.out.println("LAAEEELOOOOOOO");
                 
                 rectangulito.Mover(punto);
                 
@@ -456,7 +455,7 @@ public class EntidadController implements Initializable {
                 posY=punto.getY()-25;
                 for (int i = 0; i < entidades.size(); i++) {
                     //entidades.get(i).rectangulo.imprimirPuntos();
-                    if (interseccionRectangulo(entidades.get(i).rectangulo.getPuntos(),i)){
+                    if (entidadesSeleccionadas.size()<2&&interseccionRectangulo(entidades.get(i).rectangulo.getPuntos(),i)){
                         if (sePuedeCrearAtributo){
                             atributoEntidad=true;
                             atributoRelacion=false;
@@ -489,7 +488,6 @@ public class EntidadController implements Initializable {
                             objetoNumero=i;
                         }
                         if(sePuedeEditarCar){
-                            insertarTexto1.setVisible(true);
                             botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR (textoBotonCrear)
                             textoBotonCrear.setVisible(true);
                             textoBotonCrear.setText("Editar");
@@ -504,7 +502,7 @@ public class EntidadController implements Initializable {
                         if(sePuedeDibujarDoble){
                             if(entidades.get(i) instanceof Entidad){
                                 for (int j = 0; j < entidades.get(i).relaciones.size(); j++) {
-                                    Union union=new Union(entidades.get(i).relaciones.get(j), entidadesSeleccionadas.get(i), null,puntoCar);
+                                    Union union=new Union(entidades.get(i).relaciones.get(j), entidades.get(i), null,puntoCar);
                                     union.doble=true;
                                     Line lineaa =union.getLinea();
                                     uniones.add(union);
@@ -512,12 +510,13 @@ public class EntidadController implements Initializable {
                                     lineaa.setStrokeWidth(1);
                                     lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
                                     pane.getChildren().add(lineaa);
-                                    entidadesSeleccionadas.get(i).getLineas().add(lineaa);
+                                    entidades.get(i).getLineas().add(lineaa);
                                     //relacion2.getLineas().add(lineaa);
                                 }
                             }
-                            sePuedeDibujarDoble=false;
                             sePuedeSeleccionar=false;
+                            sePuedeDibujarDoble=false;
+                            
                         }
                         entidadesSeleccionadas.add(entidades.get(i));
                     }
@@ -579,6 +578,7 @@ public class EntidadController implements Initializable {
                         }
                     }
                 }
+                
             }catch(Exception e){
                 
             }
@@ -798,14 +798,18 @@ public class EntidadController implements Initializable {
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))){
-                        uniones.get(i).car.setText(insertarTexto1.getText());
+                        
+                        if(uniones.get(i).car.getText().equals("N")){
+                          uniones.get(i).car.setText("1");  
+                        }
+                        else if(uniones.get(i).car.getText().equals("1")) {
+                            uniones.get(i).car.setText("N");
+                        }
                     }
                 }
-                
-                
                 seSeleccionoEntidad=false;
             }
-            sePuedeEditar=false;
+            sePuedeEditarCar=false;
             sePuedeSeleccionar=false;
             textoBotonCrear.setText("Crear");
             insertarTexto1.setText("");
@@ -1506,10 +1510,12 @@ public class EntidadController implements Initializable {
         sePuedeSeleccionarBorrar=false;
     }
    public void editarCardinalidad(){
+       entidadesSeleccionadas.clear();
        sePuedeSeleccionar=true;
        sePuedeEditarCar=true;
    }
    public void doble(){
+       entidadesSeleccionadas.clear();
        sePuedeSeleccionar=true;
        sePuedeDibujarDoble=true;
    }
