@@ -26,11 +26,13 @@ public class Union {
     public boolean doble;
     Line linea;
     
+    public Agregacion agregacion;
 
-    public Union(Relacion relacion, Entidad entidad, Atributo atributo) {
+    public Union(Relacion relacion, Entidad entidad, Atributo atributo, Agregacion agregacion) {
         this.relacion = relacion;
         this.entidad = entidad;
         this.atributo = atributo;
+        this.agregacion=agregacion;
         unoAuno=false;
         doble=false;
     }
@@ -58,6 +60,28 @@ public class Union {
             linea=new Line(punto1Ant.x, punto1Ant.y, punto2Ant.x, punto2Ant.y);
             return linea;
         }
+        Line linea=new Line(punto1.x, punto1.y, punto2.x, punto2.y);
+        return linea;
+    }
+    public Line  CrearRelacionAgregacion(Poligono poligono){
+        double distanciaMinima= 7000;
+        Point punto1Ant=new Point();
+        Point punto2Ant=new Point();
+        Point punto1=new Point();
+        Point punto2=new Point();
+        for (int j = 0; j <agregacion.puntos.size(); j++) { //puntos del rectangulo
+            for (int k = 1; k < poligono.getPuntos().size(); k++) { //puntos del poligono
+                    double distanciaSiguiente=agregacion.puntos.get(j).distance(poligono.getPuntos().get(k));
+                    if(distanciaSiguiente<distanciaMinima  ){
+                        distanciaMinima=distanciaSiguiente;
+                        punto1Ant=punto1;
+                        punto2Ant=punto2;
+                        punto1=agregacion.puntos.get(j);
+                        punto2=poligono.getPuntos().get(k);
+                    }
+            }
+        }
+       
         Line linea=new Line(punto1.x, punto1.y, punto2.x, punto2.y);
         return linea;
     }
@@ -105,6 +129,7 @@ public class Union {
     }
 
     public Line getLinea() {
+        
         if(atributo!=null&&entidad!=null){
             this.linea=CrearRelacion(atributo.poligono);
             return linea;
@@ -121,10 +146,16 @@ public class Union {
             this.linea=CrearRelacion(relacion.poligono);
             return linea;
         }
+        if(relacion!=null&&agregacion!=null){
+            this.linea=CrearRelacionAgregacion(relacion.poligono);
+            
+            return linea;
+        }
         if(atributo2!=null){
             this.linea=CrearRelacionPoligono(atributo2.poligono, atributo.poligono);
         }
         return linea;
+        
     }
     public void borrarLinea(){
         this.linea=null;

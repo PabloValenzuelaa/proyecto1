@@ -101,6 +101,7 @@ import javafx.scene.shape.StrokeLineCap;
 
     }
     
+    
     public void Mover(Point puntoo) {
         Borrar();
         
