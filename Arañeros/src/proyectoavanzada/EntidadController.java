@@ -144,7 +144,7 @@ public class EntidadController implements Initializable {
     Text textoCar;
     
     public boolean sePuedeDibujarDoble=false;
-    
+    public int relacionNumero=0;
     
     
     @FXML
@@ -513,6 +513,8 @@ public class EntidadController implements Initializable {
                                     entidades.get(i).getLineas().add(lineaa);
                                     //relacion2.getLineas().add(lineaa);
                                 }
+                                entidades.get(i).rectangulo.seleccionado=false;
+                                
                             }
                             sePuedeSeleccionar=false;
                             sePuedeDibujarDoble=false;
@@ -552,6 +554,7 @@ public class EntidadController implements Initializable {
                             seSeleccionoHerencia=false;
                             objetoNumero=i;
                         }
+                        relacionNumero=i;
                         relacionesSeleccionadas.add(relaciones.get(i));
                         
                     }
@@ -797,7 +800,7 @@ public class EntidadController implements Initializable {
                     entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
                 }
                 for (int i = 0; i < uniones.size(); i++) {
-                    if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))){
+                    if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
                         
                         if(uniones.get(i).car.getText().equals("N")){
                           uniones.get(i).car.setText("1");  
@@ -805,7 +808,9 @@ public class EntidadController implements Initializable {
                         else if(uniones.get(i).car.getText().equals("1")) {
                             uniones.get(i).car.setText("N");
                         }
+                        break;
                     }
+                    
                 }
                 seSeleccionoEntidad=false;
             }
