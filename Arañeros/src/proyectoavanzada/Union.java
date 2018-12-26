@@ -7,6 +7,7 @@ package proyectoavanzada;
 
 import java.awt.Point;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import proyectoavanzada.Poligonos.Poligono;
 import proyectoavanzada.Poligonos.Rectangulo;
 
@@ -25,12 +26,21 @@ public class Union {
     
     public boolean doble;
     Line linea;
-    
+    Point puntoCar; 
+    public Agregacion agregacion;
+    public Text car=null;
 
-    public Union(Relacion relacion, Entidad entidad, Atributo atributo) {
+        public Text getCar() {
+            car.setLayoutX(puntoCar.x);
+            car.setLayoutY(puntoCar.y);
+            return car;
+    }
+    public Union(Relacion relacion, Entidad entidad, Atributo atributo, Agregacion agregacion, Point puntoCar) {
         this.relacion = relacion;
         this.entidad = entidad;
         this.atributo = atributo;
+        this.agregacion=agregacion;
+        this.puntoCar=puntoCar;
         unoAuno=false;
         doble=false;
     }
@@ -50,6 +60,21 @@ public class Union {
                         punto1Ant=punto1;
                         punto2Ant=punto2;
                         punto1=entidad.rectangulo.puntos.get(j);
+                        
+                        
+                        puntoCar=new Point(entidad.rectangulo.puntos.get(j));
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(2)){
+                            puntoCar.x-=25;
+                            puntoCar.y+=10;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(0)){
+                            puntoCar.x-=15;
+                            puntoCar.y-=5;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(3)){
+                            puntoCar.x+=5;
+                            puntoCar.y-=5;
+                        }
                         punto2=poligono.getPuntos().get(k);
                     }
             }
@@ -58,6 +83,28 @@ public class Union {
             linea=new Line(punto1Ant.x, punto1Ant.y, punto2Ant.x, punto2Ant.y);
             return linea;
         }
+        Line linea=new Line(punto1.x, punto1.y, punto2.x, punto2.y);
+        return linea;
+    }
+    public Line  CrearRelacionAgregacion(Poligono poligono){
+        double distanciaMinima= 7000;
+        Point punto1Ant=new Point();
+        Point punto2Ant=new Point();
+        Point punto1=new Point();
+        Point punto2=new Point();
+        for (int j = 0; j <agregacion.puntos.size(); j++) { //puntos del rectangulo
+            for (int k = 1; k < poligono.getPuntos().size(); k++) { //puntos del poligono
+                    double distanciaSiguiente=agregacion.puntos.get(j).distance(poligono.getPuntos().get(k));
+                    if(distanciaSiguiente<distanciaMinima  ){
+                        distanciaMinima=distanciaSiguiente;
+                        punto1Ant=punto1;
+                        punto2Ant=punto2;
+                        punto1=agregacion.puntos.get(j);
+                        punto2=poligono.getPuntos().get(k);
+                    }
+            }
+        }
+       
         Line linea=new Line(punto1.x, punto1.y, punto2.x, punto2.y);
         return linea;
     }
@@ -82,6 +129,9 @@ public class Union {
         linea=new Line(punto1.x, punto1.y, punto2.x, punto2.y);
         return linea;
     }
+    public void setCar(Text car) {
+        this.car = car;
+    }
      public Line  CrearRelacionDoble(){
         double distanciaMinima= 7000;
         Point punto1Ant=new Point();
@@ -105,6 +155,7 @@ public class Union {
     }
 
     public Line getLinea() {
+        
         if(atributo!=null&&entidad!=null){
             this.linea=CrearRelacion(atributo.poligono);
             return linea;
@@ -121,10 +172,16 @@ public class Union {
             this.linea=CrearRelacion(relacion.poligono);
             return linea;
         }
+        if(relacion!=null&&agregacion!=null){
+            this.linea=CrearRelacionAgregacion(relacion.poligono);
+            
+            return linea;
+        }
         if(atributo2!=null){
             this.linea=CrearRelacionPoligono(atributo2.poligono, atributo.poligono);
         }
         return linea;
+        
     }
     public void borrarLinea(){
         this.linea=null;
