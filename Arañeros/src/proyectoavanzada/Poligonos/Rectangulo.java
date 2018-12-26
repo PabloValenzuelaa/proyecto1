@@ -180,7 +180,6 @@ import javafx.scene.shape.StrokeLineCap;
         
     }
     
-
     public void Borrar() {
         this.pane.getChildren().remove(this.lineaDerecha);
         this.pane.getChildren().remove(this.lineaInferior);
