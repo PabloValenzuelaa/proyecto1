@@ -260,7 +260,7 @@ public class EntidadController implements Initializable {
                 }
             }
         }
-        punto.x=punto.x-200;
+        punto.x=punto.x-500;
         punto.y=punto.y+50;
         if(!seMueveElemento){
             for (int j = 0; j < agregaciones.size(); j++) {
@@ -303,11 +303,6 @@ public class EntidadController implements Initializable {
                 
             }
         }
-        /*
-        hacer este for mas arriba, y condicionar para que no se muevan las relaciones/entidades/atributos
-            booleano seMueveAgregacion...
-        guardar las distancias respecto al centro...
-        */
         seMueveElemento=false;
         return null;
         
