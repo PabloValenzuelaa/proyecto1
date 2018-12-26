@@ -1118,6 +1118,7 @@ public class EntidadController implements Initializable {
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
+                        modificaciones.add(uniones.get(i));
                         if(uniones.get(i).car.getText().equals("N")){
                           uniones.get(i).car.setText("1");  
                         }
@@ -1960,6 +1961,15 @@ public class EntidadController implements Initializable {
         if(size==0){
             return;
         }
+        if(modificaciones.get(size-1) instanceof Union){
+            Union union=(Union)modificaciones.get(size-1);
+            if(union.car.getText().equals("N")){
+                union.car.setText("1");  
+              }
+            else if(union.car.getText().equals("1")) {
+                union.car.setText("N");
+            }
+        }
         if(modificaciones.get(size-1) instanceof  Agregacion){
             System.out.println("undo agregacion");
             Agregacion agregacion=(Agregacion)modificaciones.get(size-1);
@@ -2037,6 +2047,15 @@ public class EntidadController implements Initializable {
         int size=redo.size();
         if(size==0){
             return;
+        }
+        if(redo.get(size-1) instanceof Union){
+            Union union=(Union)redo.get(size-1);
+            if(union.car.getText().equals("N")){
+                union.car.setText("1");  
+              }
+            else if(union.car.getText().equals("1")) {
+                union.car.setText("N");
+            }
         }
         if(redo.get(size-1) instanceof  Agregacion){
             Agregacion agregacion=(Agregacion)redo.get(size-1);
