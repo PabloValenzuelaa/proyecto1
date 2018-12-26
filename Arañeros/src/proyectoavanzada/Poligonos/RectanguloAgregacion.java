@@ -11,6 +11,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import proyectoavanzada.EntidadController;
+import proyectoavanzada.Relacion;
 
 /**
  *
@@ -24,7 +26,8 @@ public class RectanguloAgregacion {
     public Line lineaIzquierda;
     public Point punto1;
     public Point punto3;
-
+    public Point puntoMenor;
+    public Point puntoMayor;
     public RectanguloAgregacion(Point punto1,Point punto3) {
     
         this.punto1=punto1;
@@ -37,51 +40,126 @@ public class RectanguloAgregacion {
 
     }
     
-    public void Mover(Point punto,Pane pane) {
+    public void Mover(Point punto,Pane pane,Relacion relacion) {
         Borrar(pane);
-        //GENERAR PUNTO 1 Y 3
-        Point puntoo1=new Point();
-        puntoo1.setLocation(punto);
-        
-        Point puntoo3=new Point();
-        puntoo3.setLocation(punto);
-        
-        punto1 = new Point();
-        punto1.setLocation(punto);
-        punto1.x=punto1.x-200;
-        punto1.y=punto1.y-100;
+        puntoMenor.setLocation(punto);
+        puntoMayor.setLocation(punto);
+        for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
+            for (int j = 0; j < relacion.entidadesSelec.get(i).atributos.size(); j++) {
+                for (int k = 0; k < relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.size(); k++) {
+                    if (relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x < puntoMenor.x){
+                        puntoMenor.x = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x;
+                    }
+                    if(relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y < puntoMenor.y){
+                        puntoMenor.y = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y;
+                    }
 
-        punto3 = new Point();
+                    if (relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x > puntoMayor.x){
+                        puntoMayor.x = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x;
+                    }
+                    if(relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y > puntoMayor.y){
+                        puntoMayor.y = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y;
+                    }
+                }
+                
+            }
+        }
+        
+        for (int i = 0; i < relacion.atributos.size() ; i++) {
+            for (int j = 0; j < relacion.atributos.get(i).poligono.puntos.size(); j++) {
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
+                    puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
+                    puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
+                    puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
+                    puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+            }
+
+        }
+        for (int i = 0; i < EntidadController.herencias.size(); i++) {
+            if(EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(0)) || 
+               EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(1)) ){
+                for (int j = 0; j < EntidadController.herencias.get(i).entidad.rectangulo.puntos.size(); j++) {
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x<puntoMenor.x){
+                        puntoMenor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y<puntoMenor.y){
+                        puntoMenor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x>puntoMenor.x){
+                        puntoMayor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y>puntoMenor.y){
+                        puntoMayor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
+                    }
+                }
+            }
+            if (EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(0)) || 
+                EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(1) )){
+                for (int j = 0; j < EntidadController.herencias.get(i).entidadesHeredadas.size(); j++) {
+                    for (int k = 0; k < EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.size(); k++) {
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x<puntoMenor.x){
+                            puntoMenor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
+                        }
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y<puntoMenor.y){
+                            puntoMenor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
+                        }
+                        
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x>puntoMayor.x){
+                            puntoMayor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
+                        }
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y>puntoMayor.y){
+                            puntoMayor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        puntoMenor.x=puntoMenor.x-20;
+        puntoMenor.y=puntoMenor.y-20;
+        puntoMayor.x=puntoMayor.x+20;
+        puntoMayor.y=puntoMayor.y+20;
+        //Rectangulo
+        Point punto1=new Point();
+        punto1.setLocation(punto);
+        Point punto3=new Point();
         punto3.setLocation(punto);
-        punto3.y=punto3.y+80;
-        punto3.x=punto3.x+200;
+        punto1.x-=200;
+        punto1.y-=100;
+
+        punto3.x+=200;
+        punto3.y+=80;
+        if(punto1.x>puntoMenor.x){
+            punto1.x=puntoMenor.x;
+        }
+        if(punto1.y>puntoMenor.y){
+            punto1.y=puntoMenor.y;
+        }
+        
+        if(punto3.x<puntoMayor.x){
+            punto1.x=puntoMenor.x;
+        }
+        if(punto3.y<puntoMayor.y){
+            punto1.y=puntoMenor.y;
+        }
+        
+        
+        
+        
+        
+        //GENERAR PUNTO 1 Y 3
         //this.punto3.x+=80;
 
-        /*
-        if (relacion.entidadesSelec.size()==2){
-            punto3.x+=120;
-        */
-        /*
-        this.lineaInferior.setStartX(punto3.x);
-        this.lineaInferior.setStartY(punto3.y);
-        this.lineaInferior.setEndX(punto1.x);
-        this.lineaInferior.setEndY(punto3.y);
-
-        this.lineaSuperior.setStartX(punto1.x);
-        this.lineaSuperior.setStartY(punto1.y);
-        this.lineaSuperior.setEndX(punto3.x);
-        this.lineaSuperior.setEndY(punto1.y);
         
-        this.lineaIzquierda.setStartX(punto1.x);
-        this.lineaIzquierda.setStartY(punto1.y);
-        this.lineaIzquierda.setEndX(punto1.x);
-        this.lineaIzquierda.setEndY(punto3.y);
-        
-        this.lineaDerecha.setStartX(punto3.x);
-        this.lineaDerecha.setStartY(punto1.y);
-        this.lineaDerecha.setEndX(punto3.x);
-        this.lineaDerecha.setEndY(punto3.y);
-        */
         this.lineaSuperior= new Line(punto1.x,punto1.y,punto3.x,punto1.y);
         this.lineaInferior= new Line(punto3.x,punto3.y,punto1.x,punto3.y);
         this.lineaIzquierda= new Line(punto1.x,punto1.y,punto1.x,punto3.y);

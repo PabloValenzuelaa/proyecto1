@@ -24,6 +24,8 @@ public class Agregacion extends Entidad{
     public Point puntoCentral;
     public RectanguloAgregacion rectanguloAgregacion;
     public ArrayList <Point> puntos = new ArrayList<>();
+    public Point puntoMenor=new Point();
+    public Point puntoMayor=new Point();
     //public Line linea;
 
     public Agregacion(Relacion relacion, Point puntoCentral, Line lineaa, Text nombre, Rectangulo rectangulo,Pane pane) {
@@ -40,93 +42,13 @@ public class Agregacion extends Entidad{
         puntoEntidad2.setLocation(puntoCentral);
         puntoEntidad2.x+=230;
         
-        Point puntoMenor = new Point();
         puntoMenor.setLocation(puntoCentral);
-        Point puntoMayor = new Point();
         puntoMayor.setLocation(puntoCentral);
         
-        for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
-            for (int j = 0; j < relacion.entidadesSelec.get(i).atributos.size(); j++) {
-                if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
-                    puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
-                }
-                if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
-                    puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
-                }
-
-                if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
-                    puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
-                }
-                if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
-                    puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
-                }
-            }
-        }
-        
-        if (relacion.atributos.size()!=0){
-            for (int i = 0; i < relacion.atributos.size() ; i++) {
-                for (int j = 0; j < relacion.atributos.get(i).poligono.puntos.size(); j++) {
-                    if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
-                        puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
-                    }
-                    if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
-                        puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
-                    }
-                    
-                    if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
-                        puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
-                    }
-                    if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
-                        puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
-                    }
-                }
-                
-            }
-        }
-        for (int i = 0; i < EntidadController.herencias.size(); i++) {
-            if(EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(0)) || 
-               EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(1)) ){
-                for (int j = 0; j < EntidadController.herencias.get(i).entidad.rectangulo.puntos.size(); j++) {
-                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x<puntoMenor.x){
-                        puntoMenor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
-                    }
-                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y<puntoMenor.y){
-                        puntoMenor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
-                    }
-                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x>puntoMenor.x){
-                        puntoMayor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
-                    }
-                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y>puntoMenor.y){
-                        puntoMayor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
-                    }
-                }
-            }
-            if (EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(0)) || 
-                EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(1) )){
-                for (int j = 0; j < EntidadController.herencias.get(i).entidadesHeredadas.size(); j++) {
-                    for (int k = 0; k < EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.size(); k++) {
-                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x<puntoMenor.x){
-                            puntoMenor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
-                        }
-                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y<puntoMenor.y){
-                            puntoMenor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
-                        }
-                        
-                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x>puntoMayor.x){
-                            puntoMayor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
-                        }
-                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y>puntoMayor.y){
-                            puntoMayor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
-                        }
-                    }
-                }
-            }
-        }
+        obtenerPuntoMenorYMayor();
         puntoMenor.x=puntoMenor.x-20;
         puntoMenor.y=puntoMenor.y-20;
 
-        puntoMayor.x=puntoMayor.x-20;
-        puntoMayor.y=puntoMayor.y-20;
         //Rectangulo
         Point punto1=new Point();
         punto1.setLocation(puntoCentral);
@@ -273,6 +195,7 @@ public class Agregacion extends Entidad{
         this.rectanguloAgregacion = aaa;
     }
     public void mover(Point punto,Pane pane){
+        
         Point punto1=new Point();
         punto1.setLocation(puntoCentral);
         Point punto3=new Point();
@@ -307,8 +230,88 @@ public class Agregacion extends Entidad{
         this.puntoCentral=punto;
         super.nombre.setLayoutX(punto.x-190);
         super.nombre.setLayoutY(punto.y-75); 
-        rectanguloAgregacion.Mover(punto, pane);
+        rectanguloAgregacion.Mover(punto, pane,relacion);
     }
     
+    public void obtenerPuntoMenorYMayor(){
+        for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
+            for (int j = 0; j < relacion.entidadesSelec.get(i).atributos.size(); j++) {
+                for (int k = 0; k < relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.size(); k++) {
+                    if (relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x < puntoMenor.x){
+                        puntoMenor.x = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x;
+                    }
+                    if(relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y < puntoMenor.y){
+                        puntoMenor.y = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y;
+                    }
+
+                    if (relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x > puntoMayor.x){
+                        puntoMayor.x = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).x;
+                    }
+                    if(relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y > puntoMayor.y){
+                        puntoMayor.y = relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos.get(k).y;
+                    }
+                }
+                
+            }
+        }
+        
+        for (int i = 0; i < relacion.atributos.size() ; i++) {
+            for (int j = 0; j < relacion.atributos.get(i).poligono.puntos.size(); j++) {
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
+                    puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
+                    puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
+                    puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
+                    puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+            }
+
+        }
+        for (int i = 0; i < EntidadController.herencias.size(); i++) {
+            if(EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(0)) || 
+               EntidadController.herencias.get(i).entidad.equals(relacion.entidadesSelec.get(1)) ){
+                for (int j = 0; j < EntidadController.herencias.get(i).entidad.rectangulo.puntos.size(); j++) {
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x<puntoMenor.x){
+                        puntoMenor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y<puntoMenor.y){
+                        puntoMenor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x>puntoMenor.x){
+                        puntoMayor.x=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).x;
+                    }
+                    if (EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y>puntoMenor.y){
+                        puntoMayor.y=EntidadController.herencias.get(i).entidad.rectangulo.puntos.get(j).y;
+                    }
+                }
+            }
+            if (EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(0)) || 
+                EntidadController.herencias.get(i).entidadesHeredadas.contains(relacion.entidadesSelec.get(1) )){
+                for (int j = 0; j < EntidadController.herencias.get(i).entidadesHeredadas.size(); j++) {
+                    for (int k = 0; k < EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.size(); k++) {
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x<puntoMenor.x){
+                            puntoMenor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
+                        }
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y<puntoMenor.y){
+                            puntoMenor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
+                        }
+                        
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x>puntoMayor.x){
+                            puntoMayor.x=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).x;
+                        }
+                        if (EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y>puntoMayor.y){
+                            puntoMayor.y=EntidadController.herencias.get(i).entidadesHeredadas.get(j).rectangulo.puntos.get(k).y;
+                        }
+                    }
+                }
+            }
+        }
+    }
     
 }
