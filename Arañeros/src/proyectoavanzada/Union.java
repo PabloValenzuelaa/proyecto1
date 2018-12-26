@@ -100,6 +100,19 @@ public class Union {
                         punto1Ant=punto1;
                         punto2Ant=punto2;
                         punto1=agregacion.puntos.get(j);
+                        puntoCar=new Point(agregacion.puntos.get(j));
+                        if(agregacion.puntos.get(j)==agregacion.puntos.get(2)){
+                            puntoCar.x-=25;
+                            puntoCar.y+=10;
+                        }
+                        if(agregacion.puntos.get(j)==agregacion.puntos.get(0)){
+                            puntoCar.x-=15;
+                            puntoCar.y-=5;
+                        }
+                        if(agregacion.puntos.get(j)==agregacion.puntos.get(3)){
+                            puntoCar.x+=5;
+                            puntoCar.y-=5;
+                        }
                         punto2=poligono.getPuntos().get(k);
                     }
             }

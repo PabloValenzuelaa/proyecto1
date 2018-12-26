@@ -112,7 +112,7 @@ public class EntidadController implements Initializable {
     public ArrayList<Relacion> relacionesAModificar= new ArrayList();
     public ArrayList<Agregacion> agregaciones= new ArrayList();
     public ArrayList<ArrayList<Union>> UnionesBorradas=new ArrayList<>();
-    
+    public int numeroAgregacion=0;
     public ArrayList modificaciones= new ArrayList();
     public ArrayList redo= new ArrayList();
     public int relacionNumero=0;
@@ -501,6 +501,17 @@ public class EntidadController implements Initializable {
                             entidadesSeleccionadas.get(i).relaciones.add(relacion);
                             Union union=new Union(relacion, null, null,(Agregacion)entidadesSeleccionadas.get(i),puntoCar);
                             Line lineaa=union.getLinea();
+                            puntoCar=union.puntoCar;
+                            textito = new Text();
+                            textito.setFill(Color.BLACK);
+                            textito.setStyle(texto.getStyle());
+                            textito.setFont(texto.getFont());
+                            textito.setText("N");
+                            textito.setLayoutX(puntoCar.x);
+                            textito.setLayoutY(puntoCar.y);            
+                            textito.setVisible(true);
+                            pane.getChildren().add(textito);
+                            union.setCar(textito);
                             uniones.add(union);
                             lineaa.setStroke(Color.BLACK); //colo de la linea que une
                             lineaa.setStrokeWidth(1);
@@ -709,6 +720,7 @@ public class EntidadController implements Initializable {
                             
                         }
                         entidadesSeleccionadas.add(entidades.get(i));
+                        return;
                     }
                     
                 }
@@ -744,7 +756,7 @@ public class EntidadController implements Initializable {
                         }
                         relacionNumero=i;
                         relacionesSeleccionadas.add(relaciones.get(i));
-                        
+                        return;
                     }
                 }
                 for (int i = 0; i < atributos.size(); i++){
@@ -794,10 +806,23 @@ public class EntidadController implements Initializable {
                                 textoBotonCrear.setVisible(true);
                                 textoBotonCrear.setText("Editar");
                             }
+                            if(sePuedeEditarCar){
+                            botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR (textoBotonCrear)
+                            textoBotonCrear.setVisible(true);
+                            textoBotonCrear.setText("Editar");
+                            nombre.setText("Cardinalidad");
+                            nombre.setVisible(true);
+                            seSeleccionoEntidad=true;
+                            seSeleccionoRelacion=false;
+                            seSeleccionoAtributo=false;
+                            seSeleccionoHerencia=false;
+                            objetoNumero=i;
+                        }
                             seSeleccionoAgregacion=true;
                             //pintamos el rectangulo
                             agregaciones.get(i).rectanguloAgregacion.PintarColorCrimson();
                             entidadesSeleccionadas.add(agregaciones.get(i));
+                            numeroAgregacion=i;
                             
                         }
                     }
@@ -1111,10 +1136,17 @@ public class EntidadController implements Initializable {
         }
         if(sePuedeEditarCar){
             if(seSeleccionoEntidad){
-                for (int p = 0; p < entidadesSeleccionadas.size(); p++) {
-                    entidadesSeleccionadas.get(p).rectangulo.Borrar();
-                    entidadesSeleccionadas.get(p).rectangulo.Dibujar();
-                    entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
+                for (int i = 0; i < entidadesSeleccionadas.size(); i++) {
+                    if(entidadesSeleccionadas.get(i) instanceof Agregacion){
+                            Agregacion agregacion= (Agregacion)entidadesSeleccionadas.get(i);
+                            agregacion.rectanguloAgregacion.repintarNegro();
+                        
+                        }
+                        else{
+                            entidadesSeleccionadas.get(i).rectangulo.Borrar();
+                        entidadesSeleccionadas.get(i).rectangulo.Dibujar();
+                        entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+                        }
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
@@ -1127,6 +1159,17 @@ public class EntidadController implements Initializable {
                         }
                         break;
                     }
+                    /*if(uniones.get(i).agregacion.equals(agregaciones.get(numeroAgregacion))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
+                        modificaciones.add(uniones.get(i));
+                        if(uniones.get(i).car.getText().equals("N")){
+                          uniones.get(i).car.setText("1");  
+                        }
+                        else if(uniones.get(i).car.getText().equals("1")) {
+                            uniones.get(i).car.setText("N");
+                        }
+                        break;
+                    }*/
+                    
                 }
                 for (int p = 0; p < relaciones.size(); p++) {
                     relaciones.get(p).poligono.repintarNegro();
@@ -1970,23 +2013,31 @@ public class EntidadController implements Initializable {
         if(modificaciones.get(size-1) instanceof  Agregacion){
             System.out.println("undo agregacion");
             Agregacion agregacion=(Agregacion)modificaciones.get(size-1);
-            if(agregaciones.contains(agregacion)&&agregacion.nombresEditados.size()<0){
+            if(agregaciones.contains(agregacion)){
+                if(agregacion.nombresEditados.size()>0){
+                    agregacion.nombresEditados2.add(agregacion.nombre.getText());
+                    System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
+                    agregacion.nombre.setText(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
+                    agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
+                    redo.add(modificaciones.get(size-1));
+                    modificaciones.remove(size-1);
+                    return;
+                }
                 agregacion.rectanguloAgregacion.Borrar(pane);
                 pane.getChildren().remove(agregacion.nombre);
                 agregaciones.remove(agregacion);
-            }else if(agregacion.nombresEditados.size()>0){
-                agregacion.nombresEditados2.add(agregacion.nombre.getText());
-                System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
-                agregacion.nombre.setText(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
-                agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
-            }else{
+                redo.add(modificaciones.get(size-1));
+                modificaciones.remove(size-1);
+                return;
+            } 
+            else{
                 agregacion.rectanguloAgregacion.Dibujar(pane);
                 pane.getChildren().add(agregacion.nombre);
                 agregaciones.add(agregacion);
+                redo.add(modificaciones.get(size-1));
+                modificaciones.remove(size-1);
+                return;
             }
-            redo.add(modificaciones.get(size-1));
-            modificaciones.remove(size-1);
-            return;
         }
         if(modificaciones.get(size-1) instanceof ArrayList){
             ArrayList<Point> puntosMov=(ArrayList<Point>)modificaciones.get(size-1) ;
