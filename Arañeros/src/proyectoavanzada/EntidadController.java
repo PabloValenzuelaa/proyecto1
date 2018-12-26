@@ -1954,10 +1954,7 @@ public class EntidadController implements Initializable {
         movido=null;
         int size=modificaciones.size();
         System.out.println("tamaño undo: "+ size);
-        if(size==10){
-            modificaciones.clear();
-            return;
-        }
+        
         if(size==0){
             return;
         }
