@@ -119,5 +119,6 @@
       </ImageView>
       <Button layoutX="233.0" layoutY="336.0" mnemonicParsing="false" onAction="#doble" text="doble" />
       <Button layoutX="229.0" layoutY="372.0" mnemonicParsing="false" onAction="#editarCardinalidad" text="editar car" />
+      <Button layoutX="231.0" layoutY="294.0" mnemonicParsing="false" onAction="#simple" text="simple" />
    </children>
 </AnchorPane>

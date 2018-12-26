@@ -146,6 +146,7 @@ public class EntidadController implements Initializable {
     public boolean sePuedeDibujarDoble=false;
     public int relacionNumero=0;
     
+    public boolean sePuedeDibujarSimple=false;
     
     @FXML
     public void transportar(){
@@ -520,6 +521,21 @@ public class EntidadController implements Initializable {
                             sePuedeDibujarDoble=false;
                             
                         }
+                        if(sePuedeDibujarSimple){
+                            botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR (textoBotonCrear)
+                            textoBotonCrear.setVisible(true);
+                            textoBotonCrear.setText("Simple");
+                            nombre.setText("Simple");
+                            nombre.setVisible(true);
+                            seSeleccionoEntidad=true;
+                            seSeleccionoRelacion=false;
+                            seSeleccionoAtributo=false;
+                            seSeleccionoHerencia=false;
+                            objetoNumero=i;
+                            sePuedeDibujarDoble=false;
+                            
+                        }
+                        
                         entidadesSeleccionadas.add(entidades.get(i));
                     }
                 }
@@ -801,7 +817,6 @@ public class EntidadController implements Initializable {
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
-                        
                         if(uniones.get(i).car.getText().equals("N")){
                           uniones.get(i).car.setText("1");  
                         }
@@ -810,7 +825,38 @@ public class EntidadController implements Initializable {
                         }
                         break;
                     }
-                    
+                }
+                for (int p = 0; p < relaciones.size(); p++) {
+                    relaciones.get(p).poligono.repintarNegro();
+                }
+                seSeleccionoEntidad=false;
+            }
+            sePuedeEditarCar=false;
+            sePuedeSeleccionar=false;
+            textoBotonCrear.setText("Crear");
+            insertarTexto1.setText("");
+            insertarTexto1.setVisible(false);
+            textoBotonCrear.setVisible(false);
+            botonCrear.setVisible(false);
+            nombre.setVisible(false);
+        }
+        if(sePuedeDibujarSimple){
+            if(seSeleccionoEntidad){
+                for (int p = 0; p < entidadesSeleccionadas.size(); p++) {
+                    entidadesSeleccionadas.get(p).rectangulo.Borrar();
+                    entidadesSeleccionadas.get(p).rectangulo.Dibujar();
+                    entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
+                }
+                for (int i = 0; i < uniones.size(); i++) {
+                    if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
+                        if(uniones.get(i).doble){
+                            pane.getChildren().remove(uniones.get(i).linea);
+                            uniones.remove(i);  //HAY QUE BORRAR LA LINEA CULIA
+                        }
+                    }
+                }
+                for (int p = 0; p < relaciones.size(); p++) {
+                    relaciones.get(p).poligono.repintarNegro();
                 }
                 seSeleccionoEntidad=false;
             }
@@ -1523,5 +1569,10 @@ public class EntidadController implements Initializable {
        entidadesSeleccionadas.clear();
        sePuedeSeleccionar=true;
        sePuedeDibujarDoble=true;
+   }
+   public void simple(){
+       entidadesSeleccionadas.clear();
+       sePuedeSeleccionar=true;
+       sePuedeDibujarSimple=true;
    }
 }
