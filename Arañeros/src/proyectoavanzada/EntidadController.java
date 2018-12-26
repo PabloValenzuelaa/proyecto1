@@ -757,7 +757,7 @@ public class EntidadController implements Initializable {
                                 atributos.get(j).poligono.repintarNegro();
                             }
                             atributos.get(i).poligono.Dibujar2();
-                            atributos.get(i).nombresEditados.add(atributos.get(i).texto);
+                            atributos.get(i).nombresEditados.add(atributos.get(i).texto.getText());
                             insertarTexto1.setVisible(true);
                             botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR
                             textoBotonCrear.setVisible(true);
@@ -1041,7 +1041,7 @@ public class EntidadController implements Initializable {
                     entidadesSeleccionadas.get(p).rectangulo.Dibujar();
                     entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
                 }
-                entidades.get(objetoNumero).nombresEditados.add(entidades.get(objetoNumero).nombre);
+                entidades.get(objetoNumero).nombresEditados.add(entidades.get(objetoNumero).nombre.getText());
                 modificaciones.add(entidades.get(objetoNumero));
                 if(textoCorto){
                     entidades.get(objetoNumero).nombre.setText("Entidad "+(entidades.size()+1));
@@ -1056,7 +1056,8 @@ public class EntidadController implements Initializable {
                 for (int j = 0; j < relacionesSeleccionadas.size(); j++) {
                     relacionesSeleccionadas.get(j).poligono.repintarNegro();
                 }
-                relaciones.get(objetoNumero).nombresEditados.add(relaciones.get(objetoNumero).nombre);
+                relaciones.get(objetoNumero).nombresEditados.add(relaciones.get(objetoNumero).nombre.getText());
+                System.out.println("noombre anterior: "+relaciones.get(objetoNumero).nombre.getText());
                 modificaciones.add(relaciones.get(objetoNumero));
                 if(textoCorto){
                     relaciones.get(objetoNumero).nombre.setText("Relación "+(relaciones.size()+1));
@@ -1071,7 +1072,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < atributos.size(); i++) {
                     atributos.get(i).poligono.repintarNegro();
                 }
-                atributos.get(objetoNumero).nombresEditados.add(atributos.get(objetoNumero).texto);
+                atributos.get(objetoNumero).nombresEditados.add(atributos.get(objetoNumero).texto.getText());
                 modificaciones.add(atributos.get(objetoNumero));
                 if(textoCorto){
                     atributos.get(objetoNumero).texto.setText("Atributo "+(atributos.size())+1);
@@ -1087,7 +1088,7 @@ public class EntidadController implements Initializable {
                     agregaciones.get(i).rectanguloAgregacion.repintarNegro();
                 }
                 relacionesSeleccionadas.clear();
-                agregaciones.get(objetoNumero).nombresEditados.add(agregaciones.get(objetoNumero).nombre);
+                agregaciones.get(objetoNumero).nombresEditados.add(agregaciones.get(objetoNumero).nombre.getText());
                 modificaciones.add(agregaciones.get(objetoNumero));
                 if(textoCorto){
                     agregaciones.get(objetoNumero).nombre.setText("Agregación "+(agregaciones.size()+1));
@@ -1967,9 +1968,9 @@ public class EntidadController implements Initializable {
                 pane.getChildren().remove(agregacion.nombre);
                 agregaciones.remove(agregacion);
             }else if(agregacion.nombresEditados.size()>0){
-                agregacion.nombresEditados2.add(agregacion.nombre);
+                agregacion.nombresEditados2.add(agregacion.nombre.getText());
                 System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
-                agregacion.nombre=agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1);
+                agregacion.nombre.setText(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
                 agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
             }else{
                 agregacion.rectanguloAgregacion.Dibujar(pane);
@@ -2129,15 +2130,25 @@ public class EntidadController implements Initializable {
         redo.remove(size-1);
     }
     public void undoAtributo(Atributo atributo){
-        if(atributos.contains(atributo)){
-                borrarAtributo(atributo);
-                atributos.remove(atributo);
-                for (int i = 0; i < borradas.size(); i++) {
-                    uniones.remove(borradas.get(i));
-                    pane.getChildren().remove(borradas.get(i).linea);
-                }                
-                borradas.clear();
-            }else{
+        if(atributos.contains(atributo)&& atributo.nombresEditados.size()==0 && atributo.nombresEditados2.size()==0){
+            borrarAtributo(atributo);
+            atributos.remove(atributo);
+            for (int i = 0; i < borradas.size(); i++) {
+                uniones.remove(borradas.get(i));
+                pane.getChildren().remove(borradas.get(i).linea);
+            }                
+            borradas.clear();
+        }else if( atributo.nombresEditados.size()>0){
+            atributo.nombresEditados2.add(atributo.texto.getText());
+            atributo.texto.setText(atributo.nombresEditados.get(atributo.nombresEditados.size()-1));
+            atributo.nombresEditados.remove(atributo.nombresEditados.size()-1);
+        }else if(atributo.nombresEditados2.size()>0){
+            atributo.nombresEditados.add(atributo.texto.getText());
+            atributo.texto.setText(atributo.nombresEditados2.get(atributo.nombresEditados2.size()-1));
+            atributo.nombresEditados2.remove(atributo.nombresEditados2.size()-1);
+        }
+        
+        else{
                 atributos.add(atributo);
                 atributo.dibujar();
                 Union union=new Union(atributo.relacion, atributo.entidad,atributo,null,puntoCar);
@@ -2160,7 +2171,7 @@ public class EntidadController implements Initializable {
             }
     }
     public void undoEntidad(Entidad entidad){
-        if(entidades.contains(entidad)){
+        if(entidades.contains(entidad)&& entidad.nombresEditados.size()==0&& entidad.nombresEditados2.size()==0){
                 borrarEntidad(entidad);
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
@@ -2168,7 +2179,17 @@ public class EntidadController implements Initializable {
                 }
                 borradas.clear();
                 //agregamos este objeto a una llista de objetos 
-            }else{
+        }else if( entidad.nombresEditados.size()>0){
+            entidad.nombresEditados2.add(entidad.nombre.getText());
+            entidad.nombre.setText(entidad.nombresEditados.get(entidad.nombresEditados.size()-1));
+            entidad.nombresEditados.remove(entidad.nombresEditados.size()-1);
+        }else if(entidad.nombresEditados2.size()>0){
+            entidad.nombresEditados.add(entidad.nombre.getText());
+            entidad.nombre.setText(entidad.nombresEditados2.get(entidad.nombresEditados2.size()-1));
+            entidad.nombresEditados2.remove(entidad.nombresEditados2.size()-1);
+        }
+        
+        else{
                 entidades.add(entidad);
                 pane.getChildren().add(entidad.nombre);
                 if (entidad instanceof EntidadDebil){

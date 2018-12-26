@@ -22,8 +22,8 @@ public class Relacion {
     public boolean unoAuno;
     public Poligono poligono;
     public ArrayList <Entidad> entidadesSelec=new ArrayList();
-    public ArrayList<Text> nombresEditados=new ArrayList();
-    public ArrayList<Text> nombresEditados2=new ArrayList();
+    public ArrayList<String> nombresEditados=new ArrayList();
+    public ArrayList<String> nombresEditados2=new ArrayList();
     
     public ArrayList <Atributo> atributos=new ArrayList();
 
