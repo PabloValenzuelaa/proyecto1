@@ -44,33 +44,43 @@ public class Agregacion extends Entidad{
         puntoMenor.setLocation(puntoCentral);
         Point puntoMayor = new Point();
         puntoMayor.setLocation(puntoCentral);
-        if(true){
-            
+        
+        for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
+            for (int j = 0; j < relacion.entidadesSelec.get(i).atributos.size(); j++) {
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
+                    puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
+                    puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+
+                if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
+                    puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
+                }
+                if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
+                    puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
+                }
+            }
         }
+        
         if (relacion.atributos.size()!=0){
             for (int i = 0; i < relacion.atributos.size() ; i++) {
-                puntoMenor = relacion.atributos.get(i).poligono.puntos.get(0);
-                puntoMayor = relacion.atributos.get(i).poligono.puntos.get(0);
                 for (int j = 0; j < relacion.atributos.get(i).poligono.puntos.size(); j++) {
-                    if (relacion.atributos.get(i).poligono.puntos.get(i).x < puntoMenor.x){
-                        puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(i).x;
+                    if (relacion.atributos.get(i).poligono.puntos.get(j).x < puntoMenor.x){
+                        puntoMenor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
                     }
-                    if(relacion.atributos.get(i).poligono.puntos.get(i).y < puntoMenor.y){
-                        puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(i).y;
+                    if(relacion.atributos.get(i).poligono.puntos.get(j).y < puntoMenor.y){
+                        puntoMenor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
                     }
                     
-                    if (relacion.atributos.get(i).poligono.puntos.get(i).x > puntoMayor.x){
-                        puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(i).x;
+                    if (relacion.atributos.get(i).poligono.puntos.get(j).x > puntoMayor.x){
+                        puntoMayor.x = relacion.atributos.get(i).poligono.puntos.get(j).x;
                     }
-                    if(relacion.atributos.get(i).poligono.puntos.get(i).y > puntoMayor.y){
-                        puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(i).y;
+                    if(relacion.atributos.get(i).poligono.puntos.get(j).y > puntoMayor.y){
+                        puntoMayor.y = relacion.atributos.get(i).poligono.puntos.get(j).y;
                     }
                 }
-                puntoMenor.x=puntoMenor.x-20;
-                puntoMenor.y=puntoMenor.y-20;
                 
-                puntoMayor.x=puntoMayor.x-20;
-                puntoMayor.y=puntoMayor.y-20;
             }
         }
         for (int i = 0; i < EntidadController.herencias.size(); i++) {
@@ -112,6 +122,11 @@ public class Agregacion extends Entidad{
                 }
             }
         }
+        puntoMenor.x=puntoMenor.x-20;
+        puntoMenor.y=puntoMenor.y-20;
+
+        puntoMayor.x=puntoMayor.x-20;
+        puntoMayor.y=puntoMayor.y-20;
         //Rectangulo
         Point punto1=new Point();
         punto1.setLocation(puntoCentral);
