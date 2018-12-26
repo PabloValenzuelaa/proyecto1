@@ -260,7 +260,8 @@ public class EntidadController implements Initializable {
                 }
             }
         }
-        punto.x=punto.x-500;
+        punto = MouseInfo.getPointerInfo().getLocation();
+        punto.x=punto.x-200;
         punto.y=punto.y+50;
         if(!seMueveElemento){
             for (int j = 0; j < agregaciones.size(); j++) {
@@ -298,7 +299,6 @@ public class EntidadController implements Initializable {
                     contadorPuntos--;
                     puntosDeControl();
                     seMueveElemento=true;
-                    return agregaciones.get(j);
                 }
                 
             }
