@@ -854,7 +854,6 @@ public class EntidadController implements Initializable {
     
     @FXML
     public void crear(){
-        movido=null;
         if(sePuedeEditar){
             boolean textoCorto=false;
             if(insertarTexto1.getText().length()==0){
