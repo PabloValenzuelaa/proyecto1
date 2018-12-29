@@ -34,13 +34,6 @@ public class Agregacion extends Entidad{
         
         puntoCentral.x=puntoCentral.x-300;
         
-        Point puntoEntidad1=new Point();
-        puntoEntidad1.setLocation(puntoCentral);
-        puntoEntidad1.x+=310;
-        Point puntoEntidad2=new Point();
-        puntoEntidad2.setLocation(puntoCentral);
-        puntoEntidad2.x+=230;
-        
         Point puntoMenor = new Point();
         Point puntoMayor = new Point();
         
@@ -51,318 +44,71 @@ public class Agregacion extends Entidad{
         puntoMenor.x=puntoMenor.x-20;
         puntoMenor.y=puntoMenor.y-20;
 
-        puntoMayor.x=puntoMayor.x-20;
-        puntoMayor.y=puntoMayor.y-20;
+        puntoMayor.x=puntoMayor.x+20;
+        puntoMayor.y=puntoMayor.y+20;
         
-        //Rectangulo
-        Point punto1=new Point();
-        punto1.setLocation(puntoCentral);
-        Point punto3=new Point();
-        punto3.setLocation(puntoCentral);
-        punto1.x-=200;
-        punto1.y-=100;
-
-        punto3.x+=200;
-        punto3.y+=80;
-        if(punto1.x>puntoMenor.x){
-            punto1.x=puntoMenor.x;
-        }
-        if(punto1.y>puntoMenor.y){
-            punto1.y=puntoMenor.y;
-        }
-        
-        if(punto3.x<puntoMayor.x){
-            punto1.x=puntoMenor.x;
-        }
-        if(punto3.y<puntoMayor.y){
-            punto1.y=puntoMenor.y;
-        }
         //PUNTOS
         Point puntoA = new Point(); //arriba
-        puntoA.x=(punto1.x+punto3.x)/2;
-        puntoA.y=punto1.y;
+        puntoA.setLocation(puntoMenor);
         puntos.add(puntoA);
         
         Point puntoB = new Point(); //derecha
-        puntoB.x=punto3.x;
-        puntoB.y=(punto1.y+punto3.y)/2;
+        puntoB.x=puntoMayor.x;
+        puntoB.y=puntoMenor.y;
         puntos.add(puntoB);
         
         Point puntoC = new Point(); //abajo
-        puntoC.x=(punto1.x+punto3.x)/2;
-        puntoC.y=punto3.y;
+        puntoC.setLocation(puntoMayor);
         puntos.add(puntoC);
         
         Point puntoD = new Point(); //izquierda
-        puntoD.y=(punto1.y+punto3.y)/2;
-        puntoD.x=punto1.x;
+        puntoD.x=puntoMenor.x;
+        puntoD.y=puntoMayor.y;
         puntos.add(puntoD);
-        try{
-            if (relacion.entidadesSelec.get(0) instanceof Agregacion){
-                Agregacion agrega = (Agregacion) relacion.entidadesSelec.get(0);
-                for (int i = 0; i < agrega.puntos.size(); i++) {
-                    if(agrega.puntos.get(i).x<punto1.x){
-                        punto1.x=agrega.puntos.get(i).x-20;
-                    }
-                    if(agrega.puntos.get(i).y<punto1.y){
-                        punto1.y=agrega.puntos.get(i).y-20;
-                    }
-                    if(agrega.puntos.get(i).x>punto3.x){
-                        punto3.x=agrega.puntos.get(i).x+20;
-                    }
-                    if(agrega.puntos.get(i).y>punto3.y){
-                        punto3.y=agrega.puntos.get(i).y+20;
-                    }
-                    puntos.clear();
-                    puntoA = new Point(); //arriba
-                    puntoA.x=(punto1.x+punto3.x)/2;
-                    puntoA.y=punto1.y;
-                    puntos.add(puntoA);
 
-                    puntoB = new Point(); //derecha
-                    puntoB.x=punto3.x;
-                    puntoB.y=(punto1.y+punto3.y)/2;
-                    puntos.add(puntoB);
-
-                    puntoC = new Point(); //abajo
-                    puntoC.x=(punto1.x+punto3.x)/2;
-                    puntoC.y=punto3.y;
-                    puntos.add(puntoC);
-
-                    puntoD = new Point(); //izquierda
-                    puntoD.y=(punto1.y+punto3.y)/2;
-                    puntoD.x=punto1.x;
-                    puntos.add(puntoD);
-                }
-            }
-            else{
-                Entidad entidad1 = relacion.entidadesSelec.get(0);
-                entidad1.rectangulo.PosicionAgregacionIzq(puntoEntidad1);
-                entidad1.nombre.setLayoutX(puntoEntidad1.x-295);
-                entidad1.nombre.setLayoutY(puntoEntidad1.y);
-            }
-            //relacion a 2 entidades
-            if (relacion.entidadesSelec.size()==2){
-                if (relacion.entidadesSelec.get(1) instanceof Agregacion){
-                    Agregacion agrega = (Agregacion) relacion.entidadesSelec.get(1);
-                    for (int i = 0; i < agrega.puntos.size(); i++) {
-                        if(agrega.puntos.get(i).x<punto1.x){
-                            punto1.x=agrega.puntos.get(i).x-20;
-                        }
-                        if(agrega.puntos.get(i).y<punto1.y){
-                            punto1.y=agrega.puntos.get(i).y-20;
-                        }
-                        if(agrega.puntos.get(i).x>punto3.x){
-                            punto3.x=agrega.puntos.get(i).x+20;
-                        }
-                        if(agrega.puntos.get(i).y>punto3.y){
-                            punto3.y=agrega.puntos.get(i).y+20;
-                        }
-                        //PUNTOS
-                        puntos.clear();
-                        puntoA = new Point(); //arriba
-                        puntoA.x=(punto1.x+punto3.x)/2;
-                        puntoA.y=punto1.y;
-                        puntos.add(puntoA);
-
-                        puntoB = new Point(); //derecha
-                        puntoB.x=punto3.x;
-                        puntoB.y=(punto1.y+punto3.y)/2;
-                        puntos.add(puntoB);
-
-                        puntoC = new Point(); //abajo
-                        puntoC.x=(punto1.x+punto3.x)/2;
-                        puntoC.y=punto3.y;
-                        puntos.add(puntoC);
-
-                        puntoD = new Point(); //izquierda
-                        puntoD.y=(punto1.y+punto3.y)/2;
-                        puntoD.x=punto1.x;
-                        puntos.add(puntoD);
-                        
-                    }
-                }
-                else{//agregacion
-                    Entidad entidad2 = relacion.entidadesSelec.get(1);
-                    entidad2.rectangulo.PosicionAgregacionDer(puntoEntidad2);
-                    entidad2.nombre.setLayoutX(puntoEntidad1.x+25);
-                    entidad2.nombre.setLayoutY(puntoEntidad1.y);
-                }
-                //punto3.x+=120;
-            }
-        }
-        catch(Exception e){
-            
-        }
-        RectanguloAgregacion aaa = new RectanguloAgregacion(punto1,punto3);
+        RectanguloAgregacion aaa = new RectanguloAgregacion(puntoMenor,puntoMayor);
         this.rectanguloAgregacion = aaa;
     }
     public void mover(Point punto,Pane pane){
-        Point puntoEntidad1=new Point();
-        puntoEntidad1.setLocation(puntoCentral);
-        puntoEntidad1.x+=310;
-        Point puntoEntidad2=new Point();
-        puntoEntidad2.setLocation(puntoCentral);
-        puntoEntidad2.x+=230;
-        
         Point puntoMenor = new Point();
         Point puntoMayor = new Point();
+        puntosElem.clear();
+        puntos.clear();
         obtenerPuntos();
+
         puntoMenor.setLocation(obtenerMenor());
         puntoMayor.setLocation(obtenerMayor());
         
         puntoMenor.x=puntoMenor.x-20;
         puntoMenor.y=puntoMenor.y-20;
 
-        puntoMayor.x=puntoMayor.x-20;
-        puntoMayor.y=puntoMayor.y-20;
+        puntoMayor.x=puntoMayor.x+20;
+        puntoMayor.y=puntoMayor.y+20;
         
-        //Rectangulo
-        Point punto1=new Point();
-        punto1.setLocation(puntoCentral);
-        Point punto3=new Point();
-        punto3.setLocation(puntoCentral);
-        punto1.x-=200;
-        punto1.y-=100;
-
-        punto3.x+=200;
-        punto3.y+=80;
-        if(punto1.x>puntoMenor.x){
-            punto1.x=puntoMenor.x;
-        }
-        if(punto1.y>puntoMenor.y){
-            punto1.y=puntoMenor.y;
-        }
-        
-        if(punto3.x<puntoMayor.x){
-            punto1.x=puntoMenor.x;
-        }
-        if(punto3.y<puntoMayor.y){
-            punto1.y=puntoMenor.y;
-        }
         //PUNTOS
         Point puntoA = new Point(); //arriba
-        puntoA.x=(punto1.x+punto3.x)/2;
-        puntoA.y=punto1.y;
+        puntoA.setLocation(puntoMenor);
         puntos.add(puntoA);
         
         Point puntoB = new Point(); //derecha
-        puntoB.x=punto3.x;
-        puntoB.y=(punto1.y+punto3.y)/2;
+        puntoB.x=puntoMayor.x;
+        puntoB.y=puntoMenor.y;
         puntos.add(puntoB);
         
         Point puntoC = new Point(); //abajo
-        puntoC.x=(punto1.x+punto3.x)/2;
-        puntoC.y=punto3.y;
+        puntoC.setLocation(puntoMayor);
         puntos.add(puntoC);
         
         Point puntoD = new Point(); //izquierda
-        puntoD.y=(punto1.y+punto3.y)/2;
-        puntoD.x=punto1.x;
+        puntoD.x=puntoMenor.x;
+        puntoD.y=puntoMayor.y;
         puntos.add(puntoD);
-        try{
-            if (relacion.entidadesSelec.get(0) instanceof Agregacion){
-                Agregacion agrega = (Agregacion) relacion.entidadesSelec.get(0);
-                for (int i = 0; i < agrega.puntos.size(); i++) {
-                    if(agrega.puntos.get(i).x<punto1.x){
-                        punto1.x=agrega.puntos.get(i).x-20;
-                    }
-                    if(agrega.puntos.get(i).y<punto1.y){
-                        punto1.y=agrega.puntos.get(i).y-20;
-                    }
-                    if(agrega.puntos.get(i).x>punto3.x){
-                        punto3.x=agrega.puntos.get(i).x+20;
-                    }
-                    if(agrega.puntos.get(i).y>punto3.y){
-                        punto3.y=agrega.puntos.get(i).y+20;
-                    }
-                    puntos.clear();
-                    puntoA = new Point(); //arriba
-                    puntoA.x=(punto1.x+punto3.x)/2;
-                    puntoA.y=punto1.y;
-                    puntos.add(puntoA);
-
-                    puntoB = new Point(); //derecha
-                    puntoB.x=punto3.x;
-                    puntoB.y=(punto1.y+punto3.y)/2;
-                    puntos.add(puntoB);
-
-                    puntoC = new Point(); //abajo
-                    puntoC.x=(punto1.x+punto3.x)/2;
-                    puntoC.y=punto3.y;
-                    puntos.add(puntoC);
-
-                    puntoD = new Point(); //izquierda
-                    puntoD.y=(punto1.y+punto3.y)/2;
-                    puntoD.x=punto1.x;
-                    puntos.add(puntoD);
-                }
-            }
-            else{
-                Entidad entidad1 = relacion.entidadesSelec.get(0);
-                entidad1.rectangulo.PosicionAgregacionIzq(puntoEntidad1);
-                entidad1.nombre.setLayoutX(puntoEntidad1.x-295);
-                entidad1.nombre.setLayoutY(puntoEntidad1.y);
-            }
-            //relacion a 2 entidades
-            if (relacion.entidadesSelec.size()==2){
-                if (relacion.entidadesSelec.get(1) instanceof Agregacion){
-                    Agregacion agrega = (Agregacion) relacion.entidadesSelec.get(1);
-                    for (int i = 0; i < agrega.puntos.size(); i++) {
-                        if(agrega.puntos.get(i).x<punto1.x){
-                            punto1.x=agrega.puntos.get(i).x-20;
-                        }
-                        if(agrega.puntos.get(i).y<punto1.y){
-                            punto1.y=agrega.puntos.get(i).y-20;
-                        }
-                        if(agrega.puntos.get(i).x>punto3.x){
-                            punto3.x=agrega.puntos.get(i).x+20;
-                        }
-                        if(agrega.puntos.get(i).y>punto3.y){
-                            punto3.y=agrega.puntos.get(i).y+20;
-                        }
-                        //PUNTOS
-                        puntos.clear();
-                        puntoA = new Point(); //arriba
-                        puntoA.x=(punto1.x+punto3.x)/2;
-                        puntoA.y=punto1.y;
-                        puntos.add(puntoA);
-
-                        puntoB = new Point(); //derecha
-                        puntoB.x=punto3.x;
-                        puntoB.y=(punto1.y+punto3.y)/2;
-                        puntos.add(puntoB);
-
-                        puntoC = new Point(); //abajo
-                        puntoC.x=(punto1.x+punto3.x)/2;
-                        puntoC.y=punto3.y;
-                        puntos.add(puntoC);
-
-                        puntoD = new Point(); //izquierda
-                        puntoD.y=(punto1.y+punto3.y)/2;
-                        puntoD.x=punto1.x;
-                        puntos.add(puntoD);
-                        
-                    }
-                }
-                else{//agregacion
-                    Entidad entidad2 = relacion.entidadesSelec.get(1);
-                    entidad2.rectangulo.PosicionAgregacionDer(puntoEntidad2);
-                    entidad2.nombre.setLayoutX(puntoEntidad1.x+25);
-                    entidad2.nombre.setLayoutY(puntoEntidad1.y);
-                }
-                //punto3.x+=120;
-            }
-            
-        }
-        catch(Exception e){
-            
-        }
         
         this.puntoCentral=punto;
-        super.nombre.setLayoutX(punto.x-190);
-        super.nombre.setLayoutY(punto.y-75); 
-        rectanguloAgregacion.Mover(punto1,punto3, pane);
+        super.nombre.setLayoutX(puntoMenor.x-190);
+        super.nombre.setLayoutY(puntoMenor.y-75); 
+        rectanguloAgregacion.Mover(puntoMenor,puntoMayor, pane);
+        
     }
     
     public void obtenerPuntos(){
@@ -375,6 +121,9 @@ public class Agregacion extends Entidad{
             }
             else{
                 puntosElem.addAll(relacion.entidadesSelec.get(i).rectangulo.puntos);
+                for (int j = 0; j < relacion.entidadesSelec.get(i).entidadesHeredadas.size(); j++) {
+                    puntosElem.addAll(relacion.entidadesSelec.get(i).entidadesHeredadas.get(j).rectangulo.puntos);
+                }
             }
             for (int j = 0; j < relacion.entidadesSelec.get(i).atributos.size(); j++) {
                 puntosElem.addAll(relacion.entidadesSelec.get(i).atributos.get(j).poligono.puntos);
@@ -385,7 +134,6 @@ public class Agregacion extends Entidad{
                 }
                 
             }
-            
         }
     }
     public Point obtenerMenor(){
@@ -395,6 +143,9 @@ public class Agregacion extends Entidad{
             if (puntosElem.get(i).x < puntoMenor.x){
                 puntoMenor.x = puntosElem.get(i).x;
             }
+            
+        }
+        for (int i = 0; i < puntosElem.size(); i++) {
             if(puntosElem.get(i).y < puntoMenor.y){
                 puntoMenor.y = puntosElem.get(i).y;
             }
@@ -415,5 +166,44 @@ public class Agregacion extends Entidad{
             
         }
         return puntoMayor;
+    }
+    public void actualizar(Pane pane){
+        obtenerPuntos();
+        puntos.clear();
+        Point puntoMenor = new Point();
+        Point puntoMayor = new Point();
+        
+        obtenerPuntos();
+        puntoMenor.setLocation(obtenerMenor());
+        puntoMayor.setLocation(obtenerMayor());
+        
+        puntoMenor.x=puntoMenor.x-20;
+        puntoMenor.y=puntoMenor.y-20;
+
+        puntoMayor.x=puntoMayor.x+20;
+        puntoMayor.y=puntoMayor.y+20;
+        
+        //PUNTOS
+        Point puntoA = new Point(); //arriba
+        puntoA.setLocation(puntoMenor);
+        puntos.add(puntoA);
+        
+        Point puntoB = new Point(); //derecha
+        puntoB.x=puntoMayor.x;
+        puntoB.y=puntoMenor.y;
+        puntos.add(puntoB);
+        
+        Point puntoC = new Point(); //abajo
+        puntoC.setLocation(puntoMayor);
+        puntos.add(puntoC);
+        
+        Point puntoD = new Point(); //izquierda
+        puntoD.x=puntoMenor.x;
+        puntoD.y=puntoMayor.y;
+        puntos.add(puntoD);
+        rectanguloAgregacion.Borrar(pane);
+        RectanguloAgregacion agrega = new RectanguloAgregacion(puntoMenor,puntoMayor);
+        agrega.Dibujar(pane);
+        this.rectanguloAgregacion = agrega;
     }
 }

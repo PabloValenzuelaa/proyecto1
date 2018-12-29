@@ -210,6 +210,7 @@ public class EntidadController implements Initializable {
                                 contadorPuntos--;
                                 puntosDeControl();
                                 actualizarUniones();
+                                actualizarAgregaciones();
                                 return relaciones.get(i);
                             }
                         }
@@ -238,6 +239,7 @@ public class EntidadController implements Initializable {
                             } 
                             contadorPuntos--;
                             puntosDeControl();
+                            actualizarAgregaciones();
                             actualizarUniones();
                             return relaciones.get(i);
                         }
@@ -268,6 +270,7 @@ public class EntidadController implements Initializable {
                     contadorPuntos--;
                     puntosDeControl();
                     actualizarUniones();
+                    actualizarAgregaciones();
                     return relaciones.get(i);
                 }
             }
@@ -303,6 +306,7 @@ public class EntidadController implements Initializable {
                     contadorPuntos--;
                     puntosDeControl();
                     actualizarUniones();
+                    actualizarAgregaciones();
 
                     for (int j = 0; j < herencias.size(); j++) {
                             herencias.get(j).actualizar1();
@@ -329,6 +333,7 @@ public class EntidadController implements Initializable {
                     } 
                     contadorPuntos--;
                     puntosDeControl();
+                    actualizarAgregaciones();
                     return atributos.get(i);
                 }
             }
@@ -362,14 +367,15 @@ public class EntidadController implements Initializable {
                     agregaciones.get(j).relacion.poligono.mover(puntoDif);
 
                     /*
-                    mover los elementos que contenga la relacion de la agregacion
-                    dandole el punto de diferencia
+                        mover los elementos que contenga la relacion de la agregacion
+                        dandole el punto de diferencia
                     */
                     agregaciones.get(j).mover(punto, pane);
                     for (int k = 0; k < circulos.size(); k++) {
                         pane.getChildren().remove(circulos.get(k));
                     } 
                     actualizarUniones();
+                    actualizarAgregaciones();
                     contadorPuntos--;
                     puntosDeControl();
                     seMueveElemento=true;
@@ -991,6 +997,7 @@ public class EntidadController implements Initializable {
         if(seSeleccionoHerencia){
             for (int i = 0; i < entidadesHeredadas.size(); i++) {
                 herencias.get(herencias.size()-1).agregarHerencia(entidadesHeredadas.get( i));
+                herencias.get(herencias.size()-1).entidad.entidadesHeredadas.add(entidadesHeredadas.get( i));
             }
             herencias.get(herencias.size()-1).nombre=nombreHerencia;
             entidadesHeredadas.clear();
@@ -1126,6 +1133,7 @@ public class EntidadController implements Initializable {
                         break;
                     }
                 }
+                
                 for (int p = 0; p < relaciones.size(); p++) {
                     relaciones.get(p).poligono.repintarNegro();
                 }
@@ -1780,7 +1788,11 @@ public class EntidadController implements Initializable {
         }
     }
 
-    
+    public void actualizarAgregaciones(){
+        for (int i = 0; i < agregaciones.size(); i++) {
+            agregaciones.get(i).actualizar(pane);
+        }
+    }
     
     public void actualizarUniones(){
         for (int i = 0; i < uniones.size(); i++) {
@@ -1962,19 +1974,22 @@ public class EntidadController implements Initializable {
         if(modificaciones.get(size-1) instanceof  Agregacion){
             System.out.println("undo agregacion");
             Agregacion agregacion=(Agregacion)modificaciones.get(size-1);
-            if(agregaciones.contains(agregacion)&&agregacion.nombresEditados.size()<0){
+            if(agregaciones.contains(agregacion)){
                 agregacion.rectanguloAgregacion.Borrar(pane);
                 pane.getChildren().remove(agregacion.nombre);
                 agregaciones.remove(agregacion);
-            }else if(agregacion.nombresEditados.size()>0){
-                agregacion.nombresEditados2.add(agregacion.nombre);
-                System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
-                agregacion.nombre=agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1);
-                agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
+                if(agregacion.nombresEditados.size()>0){
+                    agregacion.nombresEditados2.add(agregacion.nombre);
+                    System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
+                    agregacion.nombre=agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1);
+                    agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
+                }
             }else{
+                
                 agregacion.rectanguloAgregacion.Dibujar(pane);
                 pane.getChildren().add(agregacion.nombre);
                 agregaciones.add(agregacion);
+                
             }
             redo.add(modificaciones.get(size-1));
             modificaciones.remove(size-1);

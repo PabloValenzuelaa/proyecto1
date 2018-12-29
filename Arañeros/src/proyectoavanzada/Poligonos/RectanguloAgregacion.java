@@ -39,7 +39,6 @@ public class RectanguloAgregacion {
     
     public void Mover(Point punto1, Point punto3,Pane pane) {
         Borrar(pane);
-        //GENERAR PUNTO 1 Y 3
 
         this.lineaSuperior= new Line(punto1.x,punto1.y,punto3.x,punto1.y);
         this.lineaInferior= new Line(punto3.x,punto3.y,punto1.x,punto3.y);
