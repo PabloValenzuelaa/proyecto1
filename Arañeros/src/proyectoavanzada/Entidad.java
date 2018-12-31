@@ -20,8 +20,8 @@ public class Entidad {
     public ArrayList <Atributo> atributos = new ArrayList();
     public ArrayList<Line> lineas=new ArrayList();
     public ArrayList<Relacion> relaciones=new ArrayList();
-    public ArrayList<String> nombresEditados=new ArrayList();
-    public ArrayList<String> nombresEditados2=new ArrayList();
+    public ArrayList<Text> nombresEditados=new ArrayList();
+    public ArrayList<Text> nombresEditados2=new ArrayList();
     public ArrayList<Entidad> entidadesHeredadas=new ArrayList();
 
     public ArrayList<Relacion> getRelaciones() {
