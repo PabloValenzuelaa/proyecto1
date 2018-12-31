@@ -22,8 +22,8 @@ public class Atributo {
     public Poligono poligono;
     public Point punto;
     public Text texto;
-    public ArrayList<String> nombresEditados=new ArrayList();
-    public ArrayList<String> nombresEditados2=new ArrayList();
+    public ArrayList<Text> nombresEditados=new ArrayList();
+    public ArrayList<Text> nombresEditados2=new ArrayList();
     public TipoAtributo tipo;
     public int largo;
     public Relacion relacion=null;

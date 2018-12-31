@@ -1048,7 +1048,7 @@ public class EntidadController implements Initializable {
                     entidadesSeleccionadas.get(p).rectangulo.Dibujar();
                     entidadesSeleccionadas.get(p).rectangulo.seleccionado=false;
                 }
-                entidades.get(objetoNumero).nombresEditados.add(entidades.get(objetoNumero).nombre);
+                entidades.get(objetoNumero).nombresEditados.add(entidades.get(objetoNumero).nombre.getText());
                 modificaciones.add(entidades.get(objetoNumero));
                 if(textoCorto){
                     entidades.get(objetoNumero).nombre.setText("Entidad "+(entidades.size()+1));
@@ -1063,7 +1063,7 @@ public class EntidadController implements Initializable {
                 for (int j = 0; j < relacionesSeleccionadas.size(); j++) {
                     relacionesSeleccionadas.get(j).poligono.repintarNegro();
                 }
-                relaciones.get(objetoNumero).nombresEditados.add(relaciones.get(objetoNumero).nombre);
+                relaciones.get(objetoNumero).nombresEditados.add(relaciones.get(objetoNumero).nombre.getText());
                 modificaciones.add(relaciones.get(objetoNumero));
                 if(textoCorto){
                     relaciones.get(objetoNumero).nombre.setText("Relación "+(relaciones.size()+1));
@@ -1094,7 +1094,7 @@ public class EntidadController implements Initializable {
                     agregaciones.get(i).rectanguloAgregacion.repintarNegro();
                 }
                 relacionesSeleccionadas.clear();
-                agregaciones.get(objetoNumero).nombresEditados.add(agregaciones.get(objetoNumero).nombre);
+                agregaciones.get(objetoNumero).nombresEditados.add(agregaciones.get(objetoNumero).nombre.getText());
                 modificaciones.add(agregaciones.get(objetoNumero));
                 if(textoCorto){
                     agregaciones.get(objetoNumero).nombre.setText("Agregación "+(agregaciones.size()+1));
@@ -1979,9 +1979,9 @@ public class EntidadController implements Initializable {
                 pane.getChildren().remove(agregacion.nombre);
                 agregaciones.remove(agregacion);
                 if(agregacion.nombresEditados.size()>0){
-                    agregacion.nombresEditados2.add(agregacion.nombre);
+                    agregacion.nombresEditados2.add(agregacion.nombre.getText());
                     System.out.println(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
-                    agregacion.nombre=agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1);
+                    agregacion.nombre.setText(agregacion.nombresEditados.get(agregacion.nombresEditados.size()-1));
                     agregacion.nombresEditados.remove(agregacion.nombresEditados.size()-1);
                 }
             }else{
