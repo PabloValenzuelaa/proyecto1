@@ -2243,6 +2243,3 @@ public void editarCardinalidad(){
        sePuedeDibujarSimple=true;
    }
 }
-
-
-
