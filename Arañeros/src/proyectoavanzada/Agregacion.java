@@ -204,6 +204,8 @@ public class Agregacion extends Entidad{
         rectanguloAgregacion.Borrar(pane);
         RectanguloAgregacion agrega = new RectanguloAgregacion(puntoMenor,puntoMayor);
         agrega.Dibujar(pane);
+        nombre.setLayoutX(puntoMenor.x+20);
+        nombre.setLayoutY(puntoMenor.y+20);        
         this.rectanguloAgregacion = agrega;
     }
 }

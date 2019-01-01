@@ -163,7 +163,6 @@ public class EntidadController implements Initializable {
             }
             else{
                 movido=objeto;
-                modificaciones.add(puntosTrasladados);
                 puntosTrasladados.clear();
             }
                 
@@ -384,11 +383,6 @@ public class EntidadController implements Initializable {
                 
             }
         }
-        /*
-        hacer este for mas arriba, y condicionar para que no se muevan las relaciones/entidades/atributos
-            booleano seMueveAgregacion...
-        guardar las distancias respecto al centro...
-        */
         seMueveElemento=false;
         return null;
     }
@@ -853,6 +847,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 UnionesBorradas.add(borradas);
                 
@@ -1797,15 +1792,12 @@ public class EntidadController implements Initializable {
     public void actualizarUniones(){
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().remove(uniones.get(i).linea);
-            if(uniones.get(i).car!=null){
-                pane.getChildren().remove(uniones.get(i).car);
-            }
             
         }
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().add(uniones.get(i).getLinea());
             if(uniones.get(i).car!=null){
-                pane.getChildren().add(uniones.get(i).getCar());
+                uniones.get(i).getCar();
             }
             
         }
@@ -2017,6 +2009,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 borradas.clear();
             }else{

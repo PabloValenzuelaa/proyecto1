@@ -30,10 +30,42 @@ public class Union {
     public Agregacion agregacion;
     public Text car=null;
 
-        public Text getCar() {
-            car.setLayoutX(puntoCar.x);
-            car.setLayoutY(puntoCar.y);
-            return car;
+    public Text getCar() {
+        double distanciaMinima= 7000;
+        Point punto1Ant=new Point();
+        Point punto2Ant=new Point();
+        Point punto1=new Point();
+        Point punto2=new Point();
+        for (int j = 0; j <entidad.rectangulo.puntos.size(); j++) { //puntos del rectangulo
+            for (int k = 1; k < relacion.poligono.getPuntos().size(); k++) { //puntos del poligono
+                    double distanciaSiguiente=entidad.rectangulo.puntos.get(j).distance(relacion.poligono.getPuntos().get(k));
+                    if(distanciaSiguiente<distanciaMinima  ){
+                        distanciaMinima=distanciaSiguiente;
+                        punto1Ant=punto1;
+                        punto2Ant=punto2;
+                        punto1=entidad.rectangulo.puntos.get(j);
+                        
+                        
+                        puntoCar=new Point(entidad.rectangulo.puntos.get(j));
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(2)){
+                            puntoCar.x-=25;
+                            puntoCar.y+=10;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(0)){
+                            puntoCar.x-=15;
+                            puntoCar.y-=5;
+                        }
+                        if(entidad.rectangulo.puntos.get(j)==entidad.rectangulo.puntos.get(3)){
+                            puntoCar.x+=5;
+                            puntoCar.y-=5;
+                        }
+                        punto2=relacion.poligono.getPuntos().get(k);
+                    }
+            }
+        }
+        car.setLayoutX(puntoCar.x);
+        car.setLayoutY(puntoCar.y);
+        return car;
     }
     public Union(Relacion relacion, Entidad entidad, Atributo atributo, Agregacion agregacion, Point puntoCar) {
         this.relacion = relacion;
