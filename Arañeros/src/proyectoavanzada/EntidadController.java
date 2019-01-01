@@ -730,7 +730,7 @@ public class EntidadController implements Initializable {
                     
                 }
                 //seleccionamos la agregacion
-                if(!seSeleccionoRelacion && !seSeleccionoEntidad && !seSeleccionoHerencia){
+                if((!seSeleccionoRelacion && !seSeleccionoEntidad && !seSeleccionoHerencia) || sePuedeCrearRelacion){
                     punto = MouseInfo.getPointerInfo().getLocation();
                     punto.x=punto.x-300;
                     punto.y=punto.y-25;
@@ -913,15 +913,15 @@ public class EntidadController implements Initializable {
         movido=null;
         for (int i = 0; i < entidadesSeleccionadas.size(); i++) {
             if(entidadesSeleccionadas.get(i) instanceof Agregacion){
-                            Agregacion agregacion= (Agregacion)entidadesSeleccionadas.get(i);
-                            agregacion.rectanguloAgregacion.repintarNegro();
-                        
-                        }
-                        else{
-                            entidadesSeleccionadas.get(i).rectangulo.Borrar();
-                        entidadesSeleccionadas.get(i).rectangulo.Dibujar();
-                        entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
-                        }
+                Agregacion agregacion= (Agregacion)entidadesSeleccionadas.get(i);
+                agregacion.rectanguloAgregacion.repintarNegro();
+
+            }
+            else{
+                entidadesSeleccionadas.get(i).rectangulo.Borrar();
+            entidadesSeleccionadas.get(i).rectangulo.Dibujar();
+            entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+            }
         }
         entidadesSeleccionadas.clear();
         for (int j = 0; j < relacionesSeleccionadas.size(); j++) {
@@ -1173,7 +1173,6 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < agregaciones.size(); i++) {
                     agregaciones.get(i).rectanguloAgregacion.repintarNegro();
                 }
-                actualizarAgregaciones();
             }
             sePuedeDibujar=true;
             nombre.setVisible(false);
@@ -1188,6 +1187,7 @@ public class EntidadController implements Initializable {
         seSeleccionoEntidad=false;
         seSeleccionoRelacion=false;
         seSeleccionoAtributo=false;
+        actualizarAgregaciones();
     }
     
     @Override
@@ -1309,8 +1309,10 @@ public class EntidadController implements Initializable {
         relaciones.clear();
         entidades.clear();
         entidadesSeleccionadas.clear();
-        Poligono poligono=new Poligono(pane);
-        poligono.puntosBolean.clear();
+        relacionesSeleccionadas.clear();
+        agregaciones.clear();
+        //Poligono poligono=new Poligono(pane);
+        //poligono.puntosBolean.clear();
         herencias.clear();
         uniones.clear();
         atributos.clear();
