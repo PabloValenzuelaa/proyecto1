@@ -182,69 +182,6 @@ public class EntidadController implements Initializable {
                 boolean contiene=false;
                 int cualEs=0;
                 if(relaciones.get(i).poligono.seleccionar(punto) ){ //interseccion
-                    for (int j = 0; j < agregaciones.size(); j++) {
-                        if(agregaciones.get(j).relacion.equals(relaciones.get(i))){//relacion pertenece a agregacion
-                            if(estaDentro(relaciones.get(i).poligono.puntos,j)){//estan los puntos dentro?
-                                seMueveElemento=true;
-                                if(relaciones.get(i) instanceof RelaciónDebil){
-                                    punto.x=punto.x+300;
-                                    Poligono poligono2 = relaciones.get(i).poligono;
-                                    RelaciónDebil nv= (RelaciónDebil)relaciones.get(i);
-                                    nv.poligono2.mover(punto);
-                                    contadorPuntos--;
-                                    puntosDeControl();
-                                    punto.x=punto.x-300;
-                                }
-                                relaciones.get(i).nombre.setLayoutX(punto.x-15);
-                                relaciones.get(i).nombre.setLayoutY(punto.y-15);
-                                punto.x=punto.x+300;
-                                relaciones.get(i).poligono.mover(punto);
-                                if(relaciones.get(i) instanceof RelaciónDebil){
-                                    RelaciónDebil relacionDebil=(RelaciónDebil)relaciones.get(i);
-                                    relacionDebil.poligono2.mover(punto);
-
-                                }
-                                for (int k = 0; k < circulos.size(); k++) {
-                                    pane.getChildren().remove(circulos.get(k));
-                                } 
-                                contadorPuntos--;
-                                puntosDeControl();
-                                actualizarUniones();
-                                actualizarAgregaciones();
-                                return relaciones.get(i);
-                            }
-                        }
-                        else{
-                            seMueveElemento=true;
-                            if(relaciones.get(i) instanceof RelaciónDebil){
-                                punto.x=punto.x+300;
-                                Poligono poligono2 = relaciones.get(i).poligono;
-                                RelaciónDebil nv= (RelaciónDebil)relaciones.get(i);
-                                nv.poligono2.mover(punto);
-                                contadorPuntos--;
-                                puntosDeControl();
-                                punto.x=punto.x-300;
-                            }
-                            relaciones.get(i).nombre.setLayoutX(punto.x-15);
-                            relaciones.get(i).nombre.setLayoutY(punto.y-15);
-                            punto.x=punto.x+300;
-                            relaciones.get(i).poligono.mover(punto);
-                            if(relaciones.get(i) instanceof RelaciónDebil){
-                                RelaciónDebil relacionDebil=(RelaciónDebil)relaciones.get(i);
-                                relacionDebil.poligono2.mover(punto);
-
-                            }
-                            for (int k = 0; k < circulos.size(); k++) {
-                                pane.getChildren().remove(circulos.get(k));
-                            } 
-                            contadorPuntos--;
-                            puntosDeControl();
-                            actualizarAgregaciones();
-                            actualizarUniones();
-                            return relaciones.get(i);
-                        }
-                    }
-
                     seMueveElemento=true;
                     if(relaciones.get(i) instanceof RelaciónDebil){
                         punto.x=punto.x+300;
@@ -345,7 +282,8 @@ public class EntidadController implements Initializable {
         if(!seMueveElemento){
             for (int j = 0; j < agregaciones.size(); j++) {
                 if(interseccionTransportarAgregacion(agregaciones.get(j).rectanguloAgregacion.punto1,
-                    agregaciones.get(j).rectanguloAgregacion.punto3,punto)){
+                    agregaciones.get(j).rectanguloAgregacion.punto3,punto) && false){
+                    agregaciones.get(j).mover(punto, pane);
                     //movemos las entidades
                     for (int i = 0; i < agregaciones.get(j).relacion.entidadesSelec.size(); i++) {
                         puntoDif.setLocation(punto);
@@ -362,15 +300,12 @@ public class EntidadController implements Initializable {
                     puntoDif.x=puntoDif.x+(agregaciones.get(j).puntoCentral.x-agregaciones.get(j).relacion.poligono.punto.x);
                     puntoDif.y=puntoDif.y+(agregaciones.get(j).puntoCentral.y-agregaciones.get(j).relacion.poligono.punto.y);
                     puntoDif.x=puntoDif.x+300;
-                    agregaciones.get(j).relacion.nombre.setLayoutX(puntoDif.x-310);
-                    agregaciones.get(j).relacion.nombre.setLayoutY(puntoDif.y-10);
+                    puntoDif.y=puntoDif.y+25;
+                    agregaciones.get(j).relacion.nombre.setLayoutX(puntoDif.x-290);
+                    agregaciones.get(j).relacion.nombre.setLayoutY(puntoDif.y);
                     agregaciones.get(j).relacion.poligono.mover(puntoDif);
-
-                    /*
-                        mover los elementos que contenga la relacion de la agregacion
-                        dandole el punto de diferencia
-                    */
-                    agregaciones.get(j).mover(punto, pane);
+                    
+                    
                     for (int k = 0; k < circulos.size(); k++) {
                         pane.getChildren().remove(circulos.get(k));
                     } 
@@ -714,11 +649,14 @@ public class EntidadController implements Initializable {
                             sePuedeDibujarDoble=false;
                             
                         }
+                        seSeleccionoEntidad=true;
                         entidadesSeleccionadas.add(entidades.get(i));
                     }
                     
                 }
-                punto.x=punto.x-300;
+                punto = MouseInfo.getPointerInfo().getLocation();
+                punto.x-=300;
+                punto.y-=20;
                 for (int i = 0; i < relaciones.size(); i++) {
                     //punto.x
                     if(relaciones.get(i).poligono.seleccionar(punto)){
@@ -750,7 +688,7 @@ public class EntidadController implements Initializable {
                         }
                         relacionNumero=i;
                         relacionesSeleccionadas.add(relaciones.get(i));
-                        
+                        seSeleccionoRelacion=true;
                     }
                 }
                 for (int i = 0; i < atributos.size(); i++){
@@ -776,11 +714,26 @@ public class EntidadController implements Initializable {
                         }
                     }
                 }
+                for (int i = 0; i < herencias.size(); i++) {
+                    herencias.get(i).circulo.repintarNegro();
+                    if(herencias.get(i).circulo.seleccionar(punto)){
+                        herencias.get(i).circulo.Dibujar2();
+                        objetoNumero=i;
+                        seSeleccionoRelacion=false;
+                        seSeleccionoEntidad=false;
+                        seSeleccionoAtributo=false;
+                        seSeleccionoHerencia=true;
+                        botonCrear.setVisible(true);//MODIFICAR NOMBRE DE CREAR--MODIFICAR
+                        textoBotonCrear.setVisible(true);
+                        textoBotonCrear.setText("Editar");
+                    }
+                    
+                }
                 //seleccionamos la agregacion
-                if(!seSeleccionoRelacion || !seSeleccionoEntidad || !seSeleccionoHerencia){
+                if(!seSeleccionoRelacion && !seSeleccionoEntidad && !seSeleccionoHerencia){
                     punto = MouseInfo.getPointerInfo().getLocation();
-                    punto.x=punto.x-200;
-                    punto.y=punto.y+50;
+                    punto.x=punto.x-300;
+                    punto.y=punto.y-25;
                     for (int i = 0; i < agregaciones.size(); i++) {
                         if(interseccionTransportarAgregacion(agregaciones.get(i).rectanguloAgregacion.punto1,
                             agregaciones.get(i).rectanguloAgregacion.punto3,punto)){
@@ -804,7 +757,7 @@ public class EntidadController implements Initializable {
                             //pintamos el rectangulo
                             agregaciones.get(i).rectanguloAgregacion.PintarColorCrimson();
                             entidadesSeleccionadas.add(agregaciones.get(i));
-                            
+                            break;
                         }
                     }
                 }
@@ -1104,6 +1057,18 @@ public class EntidadController implements Initializable {
                 }
                 seSeleccionoAgregacion=false;
             }
+            else if(seSeleccionoHerencia){
+                for (int i = 0; i < herencias.size(); i++) {
+                    herencias.get(i).circulo.repintarNegro();
+                }
+                if(herencias.get(objetoNumero).nombre.getText().equals("D")){
+                    herencias.get(objetoNumero).nombre.setText("S");
+                }
+                else{
+                    herencias.get(objetoNumero).nombre.setText("D");
+                    seSeleccionoHerencia=false;
+                }
+            }
             sePuedeEditar=false;
             sePuedeSeleccionar=false;
             sePuedeCrearRelacion=false;
@@ -1208,7 +1173,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < agregaciones.size(); i++) {
                     agregaciones.get(i).rectanguloAgregacion.repintarNegro();
                 }
-                
+                actualizarAgregaciones();
             }
             sePuedeDibujar=true;
             nombre.setVisible(false);

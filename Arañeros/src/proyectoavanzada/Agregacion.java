@@ -178,11 +178,13 @@ public class Agregacion extends Entidad{
         puntoMayor.setLocation(obtenerMayor());
         
         puntoMenor.x=puntoMenor.x-20;
-        puntoMenor.y=puntoMenor.y-20;
+        puntoMenor.y=puntoMenor.y-40;
 
         puntoMayor.x=puntoMayor.x+20;
         puntoMayor.y=puntoMayor.y+20;
-        
+        //MOVEMOS EL NOMBRE DE LA AGREGACION
+        super.nombre.setLayoutX(puntoMenor.x+15);
+        super.nombre.setLayoutY(puntoMenor.y+25);
         //PUNTOS
         Point puntoA = new Point(); //arriba
         puntoA.setLocation(puntoMenor);
