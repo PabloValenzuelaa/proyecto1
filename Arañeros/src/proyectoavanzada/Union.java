@@ -31,7 +31,7 @@ public class Union {
     public Text car=null;
     boolean dobleAgregacion=false;
 
-        public Text getCar() {
+    public Text getCar() {
             car.setLayoutX(puntoCar.x);
             car.setLayoutY(puntoCar.y);
             return car;

@@ -25,7 +25,6 @@ public class UnionHerencia {
     public Entidad entidad;
     public ArrayList<Entidad> entidadesHeredadas= new ArrayList();
     public ArrayList<Entidad> entidadesBorradas= new ArrayList();
-    public ArrayList<Union> Union= new ArrayList();
     public Poligono circulo;
     public Pane pane;
     public ArrayList <Line> lineas=new ArrayList<>();

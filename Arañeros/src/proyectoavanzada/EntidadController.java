@@ -164,7 +164,6 @@ public class EntidadController implements Initializable {
             }
             else{
                 movido=objeto;
-                modificaciones.add(puntosTrasladados);
                 puntosTrasladados.clear();
             }
                 
@@ -416,6 +415,8 @@ public class EntidadController implements Initializable {
                             entidadesSeleccionadas.get(i).relaciones.add(relacion2);
                             Union union=new Union(relacion2, entidadesSeleccionadas.get(i), null,null,puntoCar);
                             union.doble=true;
+                            
+                            entidadesSeleccionadas.get(i).uniones.add(union);
                             Line lineaa =union.getLinea();
                             uniones.add(union);
                             lineaa.setStroke(Color.BLACK); //color de la linea que une
@@ -429,6 +430,7 @@ public class EntidadController implements Initializable {
                         if(entidadesSeleccionadas.get(i) instanceof Agregacion){
                             agregaciones.get(i).relaciones.add(relacion);
                             Union union=new Union(relacion, null, null,(Agregacion)entidadesSeleccionadas.get(i),puntoCar);
+                            entidadesSeleccionadas.get(i).uniones.add(union);
                             Line lineaa=union.getLinea();
                             puntoCar=union.puntoCar;
                             textito = new Text();
@@ -466,6 +468,7 @@ public class EntidadController implements Initializable {
                         pane.getChildren().add(textito);
                         union.setCar(textito);
                         uniones.add(union);
+                        entidadesSeleccionadas.get(i).uniones.add(union);
                         lineaa.setStroke(Color.BLACK); //colo de la linea que une
                         lineaa.setStrokeWidth(1);
                         lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -534,9 +537,6 @@ public class EntidadController implements Initializable {
                 }
                 sePuedeCrearAtributo=false;
             }
-            
-            
-            
         }
     
         else if(crearHerencia){
@@ -849,6 +849,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 UnionesBorradas.add(borradas);
         }
@@ -1029,6 +1030,7 @@ public class EntidadController implements Initializable {
     
     @FXML
     public void crear(){
+        redo.clear();
         if(sePuedeEditar){
             boolean textoCorto=false;
             if(insertarTexto1.getText().length()==0){
@@ -1137,6 +1139,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < uniones.size(); i++) {
                     if(uniones.get(i).agregacion==null)
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
+                        modificaciones.add(uniones.get(i));
                         if(uniones.get(i).car.getText().equals("N")){
                           uniones.get(i).car.setText("1");  
                         }
@@ -1851,15 +1854,14 @@ public class EntidadController implements Initializable {
     public void actualizarUniones(){
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().remove(uniones.get(i).linea);
-            if(uniones.get(i).car!=null){
-                pane.getChildren().remove(uniones.get(i).car);
-            }
-            
         }
         for (int i = 0; i < uniones.size(); i++) {
             pane.getChildren().add(uniones.get(i).getLinea());
             if(uniones.get(i).car!=null){
-                pane.getChildren().add(uniones.get(i).getCar());
+                if(pane.getChildren().contains(uniones.get(i).getCar()))
+                uniones.get(i).getCar();
+                else
+                    pane.getChildren().add(uniones.get(i).car);
             }
             
         }
@@ -2003,6 +2005,9 @@ public class EntidadController implements Initializable {
             if(uniones.get(i).atributo==atributo){
                 borradas.add(uniones.get(i));
                 pane.getChildren().remove(uniones.get(i).linea);
+                if(uniones.get(i).relacion!=null)
+                    uniones.get(i).relacion.atributos.remove(atributo);
+                
                 if(atributo.tipo==TipoAtributo.compuesto){
                     if(atributo.atributos.size()>0){
                         for (int j = 0; j < atributo.atributos.size(); j++) {
@@ -2029,6 +2034,31 @@ public class EntidadController implements Initializable {
         }
         if(size==0){
             return;
+        }
+        if(modificaciones.get(size-1) instanceof UnionHerencia){
+            UnionHerencia her=(UnionHerencia)modificaciones.get(size-1);
+            if(herencias.contains(her)){
+                pane.getChildren().removeAll(her.circulo.lineas);
+                pane.getChildren().remove(her.nombre);
+                for (int i = 0; i < her.lineas.size(); i++) {
+                    pane.getChildren().remove(her.lineas.get(i));
+                }
+            }else{
+                pane.getChildren().addAll(her.circulo.lineas);
+                pane.getChildren().add(her.nombre);
+                for (int i = 0; i < her.lineas.size(); i++) {
+                    pane.getChildren().add(her.lineas.get(i));
+                }
+            }
+        }
+        if(modificaciones.get(size-1) instanceof Union){
+            Union union=(Union)modificaciones.get(size-1);
+            if(union.car.getText().equals("N")){
+                union.car.setText("1");  
+              }
+            else if(union.car.getText().equals("1")) {
+                union.car.setText("N");
+            }
         }
         if(modificaciones.get(size-1) instanceof  Agregacion){
             System.out.println("undo agregacion");
@@ -2076,6 +2106,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 borradas.clear();
             }else{
@@ -2084,8 +2115,14 @@ public class EntidadController implements Initializable {
                 relacion.poligono.mover(relacion.poligono.punto);
                 pane.getChildren().add(relacion.nombre);
                 for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
-                    Union union=new Union(relacion, relacion.entidadesSelec.get(i), null,null,puntoCar);
-                    uniones.add(union);
+                    System.out.println("hkg");
+                    for (int j = 0; j <relacion.entidadesSelec.get(i).uniones.size(); j++) {
+                        System.out.println("556");
+                        if(relaciones.contains(relacion.entidadesSelec.get(i).uniones.get(j).relacion)){
+                            uniones.add(relacion.entidadesSelec.get(i).uniones.get(j));
+                            System.out.println("999s"+relacion.entidadesSelec.get(i).uniones.get(j).car.getText());
+                        }
+                    }
                 }
                 for (int i = 0; i < relacion.atributos.size(); i++) {
                     atributos.add(relacion.atributos.get(i));
@@ -2111,6 +2148,31 @@ public class EntidadController implements Initializable {
         if(size==0){
             return;
         }
+        if(redo.get(size-1) instanceof UnionHerencia){
+            UnionHerencia her=(UnionHerencia)redo.get(size-1);
+            if(herencias.contains(her)){
+                pane.getChildren().removeAll(her.circulo.lineas);
+                pane.getChildren().remove(her.nombre);
+                for (int i = 0; i < her.lineas.size(); i++) {
+                    pane.getChildren().remove(her.lineas.get(i));
+                }
+            }else{
+                pane.getChildren().addAll(her.circulo.lineas);
+                pane.getChildren().add(her.nombre);
+                for (int i = 0; i < her.lineas.size(); i++) {
+                    pane.getChildren().add(her.lineas.get(i));
+                }
+            }
+        }
+        if(redo.get(size-1) instanceof Union){
+            Union union=(Union)redo.get(size-1);
+            if(union.car.getText().equals("N")){
+                union.car.setText("1");  
+              }
+            else if(union.car.getText().equals("1")) {
+                union.car.setText("N");
+            }
+        }
         if(redo.get(size-1) instanceof  Agregacion){
             Agregacion agregacion=(Agregacion)redo.get(size-1);
             if(agregaciones.contains(agregacion)){
@@ -2123,7 +2185,6 @@ public class EntidadController implements Initializable {
                 agregaciones.add(agregacion);
             }
             redo.remove(size-1);
-            return;
         }
         if(redo.get(size-1) instanceof ArrayList){
             ArrayList<Point> puntosMov=(ArrayList<Point>)redo.get(size-1) ;
@@ -2147,6 +2208,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 borradas.clear();
             }else{
@@ -2155,8 +2217,11 @@ public class EntidadController implements Initializable {
                 relacion.poligono.mover(relacion.poligono.punto);
                 pane.getChildren().add(relacion.nombre);
                 for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
-                    Union union=new Union(relacion, relacion.entidadesSelec.get(i), null,null,puntoCar);
-                    uniones.add(union);
+                    for (int j = 0; j <relacion.entidadesSelec.get(i).uniones.size(); j++) {
+                        if(relaciones.contains(relacion.entidadesSelec.get(i).uniones.get(j).relacion)){
+                            uniones.add(relacion.entidadesSelec.get(i).uniones.get(j));
+                        }
+                    }
                 }
                 for (int i = 0; i < relacion.atributos.size(); i++) {
                     atributos.add(relacion.atributos.get(i));
@@ -2178,6 +2243,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }                
                 borradas.clear();
             }else{
@@ -2200,6 +2266,7 @@ public class EntidadController implements Initializable {
                 actualizarUniones();
             }
         }
+        modificaciones.add( redo.get(size-1));
         redo.remove(size-1);
     }
     public void undoAtributo(Atributo atributo){
@@ -2209,6 +2276,7 @@ public class EntidadController implements Initializable {
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }                
                 borradas.clear();
             }else{
@@ -2235,10 +2303,13 @@ public class EntidadController implements Initializable {
     }
     public void undoEntidad(Entidad entidad){
         if(entidades.contains(entidad)){
+                
                 borrarEntidad(entidad);
+                entidad.uniones=borradas;
                 for (int i = 0; i < borradas.size(); i++) {
                     uniones.remove(borradas.get(i));
                     pane.getChildren().remove(borradas.get(i).linea);
+                    pane.getChildren().remove(borradas.get(i).car);
                 }
                 borradas.clear();
                 //agregamos este objeto a una llista de objetos 
@@ -2249,7 +2320,24 @@ public class EntidadController implements Initializable {
                     EntidadDebil entidadDebil = (EntidadDebil)entidad;
                     entidadDebil.rectangulo2.Dibujar();
                 }
-               
+                for (int i = 0; i < uniones.size(); i++) {
+                    for (int j = 0; j <entidad.relaciones.size(); j++) {
+                        if(uniones.get(i).relacion!=null&&uniones.get(i).relacion==entidad.relaciones.get(j)){
+                            if (uniones.get(i).unoAuno) {
+                                pane.getChildren().remove(uniones.get(i).linea);
+                                pane.getChildren().remove(uniones.get(i).car);
+                                uniones.remove(i);
+                            }
+                        }
+                    }
+                    
+                }
+                
+                for (int i = 0; i < entidad.uniones.size(); i++) {
+                    if(relaciones.contains(entidad.uniones.get(i).relacion)){
+                        uniones.add(entidad.uniones.get(i));
+                    }
+                }
                 Rectangulo rectangulito = entidad.rectangulo;
                 rectangulito.Dibujar();
                 for (int k = 0; k < circulos.size(); k++) {
