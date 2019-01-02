@@ -23,7 +23,7 @@ public class Union {
     
     public Atributo atributo2=null;
     public boolean unoAuno;
-    
+    public boolean editDoble=false;
     public boolean doble;
     Line linea;
     Point puntoCar; 

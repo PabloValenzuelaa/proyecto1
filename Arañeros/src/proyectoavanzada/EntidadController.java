@@ -626,6 +626,9 @@ public class EntidadController implements Initializable {
                                     union.doble=true;
                                     Line lineaa =union.getLinea();
                                     uniones.add(union);
+                                    entidades.get(i).uniones.add(union);
+                                    entidades.get(i).relaciones.get(j).uniones.add(union);
+                                    modificaciones.add(union);
                                     lineaa.setStroke(Color.BLACK); //color de la linea que une
                                     lineaa.setStrokeWidth(1);
                                     lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -766,6 +769,9 @@ public class EntidadController implements Initializable {
                                     union.doble=true;
                                     Line lineaa =union.getLinea();
                                     uniones.add(union);
+                                    union.editDoble=true;
+                                    modificaciones.add(union);
+                                    union.editDoble=true;
                                     lineaa.setStroke(Color.BLACK); //color de la linea que une
                                     lineaa.setStrokeWidth(1);
                                     lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -2066,12 +2072,26 @@ public class EntidadController implements Initializable {
         }
         if(modificaciones.get(size-1) instanceof Union){
             Union union=(Union)modificaciones.get(size-1);
-            if(union.car.getText().equals("N")){
-                union.car.setText("1");  
-              }
-            else if(union.car.getText().equals("1")) {
-                union.car.setText("N");
+            if(uniones.contains(union)){
+                if(union.editDoble){
+                    if(union.car.getText().equals("N")){
+                    union.car.setText("1");  
+                    }
+                    else if(union.car.getText().equals("1")) {
+                        union.car.setText("N");
+                    }
+                    union.editDoble=false;
+                }
+                else{
+                uniones.remove(union);
+                pane.getChildren().remove(union.linea);}
+                
+                }
+            else{
+                uniones.add(union);
+                pane.getChildren().add(union.linea);
             }
+            
         }
         if(modificaciones.get(size-1) instanceof  Agregacion){
             System.out.println("undo agregacion");
@@ -2171,6 +2191,8 @@ public class EntidadController implements Initializable {
         }
         redo.add(modificaciones.get(size-1));
         modificaciones.remove(size-1);
+        contadorPuntos--;
+        puntosDeControl();
     }
     public void redo(){
         System.out.println("tamaño del redo"+redo.size());
@@ -2197,11 +2219,24 @@ public class EntidadController implements Initializable {
         }
         if(redo.get(size-1) instanceof Union){
             Union union=(Union)redo.get(size-1);
-            if(union.car.getText().equals("N")){
-                union.car.setText("1");  
-              }
-            else if(union.car.getText().equals("1")) {
-                union.car.setText("N");
+            if(uniones.contains(union)){
+                if(union.editDoble){
+                    if(union.car.getText().equals("N")){
+                    union.car.setText("1");  
+                    }
+                    else if(union.car.getText().equals("1")) {
+                        union.car.setText("N");
+                    }
+                    union.editDoble=false;
+                }
+                else{
+                uniones.remove(union);
+                pane.getChildren().remove(union.linea);}
+                
+                }
+            else{
+                uniones.add(union);
+                pane.getChildren().add(union.linea);
             }
         }
         if(redo.get(size-1) instanceof  Agregacion){
@@ -2308,6 +2343,8 @@ public class EntidadController implements Initializable {
                 actualizarUniones();
             }
         }
+        contadorPuntos--;
+        puntosDeControl();
         modificaciones.add( redo.get(size-1));
         redo.remove(size-1);
     }
@@ -2358,7 +2395,10 @@ public class EntidadController implements Initializable {
                 //agregamos este objeto a una llista de objetos 
             }else{
                 entidades.add(entidad);
+                try {
                 pane.getChildren().add(entidad.nombre);
+                } catch (Exception e) {
+                }
                 if (entidad instanceof EntidadDebil){
                     EntidadDebil entidadDebil = (EntidadDebil)entidad;
                     entidadDebil.rectangulo2.Dibujar();
