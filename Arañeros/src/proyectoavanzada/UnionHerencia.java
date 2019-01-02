@@ -47,6 +47,7 @@ public class UnionHerencia {
         puntito.x+=distancia+300;
         puntito.y+=70;
         circulo.Dibujar(50, 15, puntito);
+        this.puntoCirculo=puntito;
         puntoo=punto;
         linea1=new Line(punto.getX()-300, puntito.getY()-30, puntito.getX()-300, puntito.getY()-70);
         lineas.add(linea1);
