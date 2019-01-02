@@ -2301,4 +2301,109 @@ public void editarCardinalidad(){
        sePuedeSeleccionar=true;
        sePuedeDibujarSimple=true;
    }
+   @FXML
+   public void validar(){
+       boolean clave=false;
+       String advertencia="";
+       boolean claveParcial=false;
+       int contador=0;
+       for (int i = 0; i < entidades.size(); i++) {
+            for (int j = i+1; j < entidades.size()+1; j++) {
+                if(j==entidades.size()){
+                    
+                }
+                else if(entidades.get(i).nombre.getText().equals(entidades.get(j).nombre.getText())){
+                    System.out.println("MISMO NOMBREEEEEEEEEEEEE ENTIDAD");
+                    contador++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < herencias.size(); i++) {
+            ArrayList nombresPadre= new ArrayList();
+            ArrayList nombresHijos= new ArrayList();
+            for (int j = 0; j < herencias.get(i).entidad.atributos.size(); j++) {
+                nombresPadre.add(herencias.get(i).entidad.atributos.get(j).texto.getText());
+                for (int k = 0; k < herencias.get(i).entidad.atributos.get(j).atributos.size(); k++) {
+                    nombresPadre.add(herencias.get(i).entidad.atributos.get(j).atributos.get(k).texto.getText());
+                }
+            }
+            for (int j = 0; j < herencias.get(i).entidad.entidadesHeredadas.size(); j++) {
+                for (int r = 0; r < herencias.get(i).entidad.entidadesHeredadas.get(j).atributos.size(); r++) {
+                    nombresHijos.add(herencias.get(i).entidad.entidadesHeredadas.get(j).atributos.get(r).texto.getText());
+                    for (int k = 0; k < herencias.get(i).entidad.entidadesHeredadas.get(j).atributos.get(r).atributos.size(); k++) {
+                        nombresHijos.add(herencias.get(i).entidad.entidadesHeredadas.get(j).atributos.get(r).atributos.get(k).texto.getText());
+                    }
+                }
+            }
+            for (int m = 0; m < nombresPadre.size(); m++) {
+                for (int j =0 ; j < nombresHijos.size(); j++) {
+                    if(nombresHijos.get(j).equals(nombresPadre.get(m))){
+                        System.out.println("IGUAAAAAAAAAAAAAAAAAAAL");
+                        contador++;
+                        advertencia=advertencia+("\nEl atributo "+ nombresPadre.get(m)+" posee el mismo nombre de ");
+                    }
+                }
+            }
+        }
+       
+       for (int i = 0; i < entidades.size(); i++) {
+           clave=false;
+           if(entidades.get(i).atributos.size()==0){
+               if(entidades.get(i) instanceof EntidadDebil){
+                   contador++;
+                    advertencia=advertencia+("\nA entidad "+ entidades.get(i).nombre.getText() +" le falta un atributo clave parcial");
+               }
+                else{
+                   contador++;
+                    advertencia=advertencia+"\nA entidad "+ entidades.get(i).nombre.getText() +" le falta un atributo clave";
+                }
+           }
+           else{
+               if(entidades.get(i) instanceof EntidadDebil){
+                    for (int j = 0; j < entidades.get(i).atributos.size(); j++) {
+                        if(entidades.get(i).atributos.get(j).tipo.equals(TipoAtributo.claveParcial)){
+                            claveParcial=true;
+                        }
+                    }
+                    if(!claveParcial){
+                        contador++;
+                        advertencia=advertencia+("\nA entidad "+ entidades.get(i).nombre.getText() +" le falta un atributo clave parcial");
+                    }
+                    else{
+                        claveParcial=false;
+                    }
+                }
+               else{
+                   for (int j = 0; j < entidades.get(i).atributos.size(); j++) {
+                        if(entidades.get(i).atributos.get(j).tipo.equals(TipoAtributo.clave)){
+                            clave=true;
+                        }
+                    }
+                    if(!clave){
+                        contador++;
+                        advertencia=advertencia+("\nA entidad "+ entidades.get(i).nombre.getText() +" le falta un atributo clave ");
+                    }
+                    else{
+                        clave=false;
+                    }
+               }
+           }
+        }
+        if(contador!=0){
+            
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Informacion");
+        alert.setHeaderText("Entidades");
+        alert.setContentText(advertencia);
+        alert.showAndWait();
+   }    
+        else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Informacion");
+        alert.setHeaderText("Entidades");
+        alert.setContentText("Programa correcto");
+        alert.showAndWait();
+        }
+   }
 }

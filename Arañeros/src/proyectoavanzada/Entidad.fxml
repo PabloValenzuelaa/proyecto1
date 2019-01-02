@@ -23,7 +23,7 @@
          </image>
       </ImageView>
       <Text fx:id="nombreEntidad" layoutX="128.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  " wrappingWidth="1.0" />
-      <Pane fx:id="pane" layoutX="296.0" onMouseClicked="#dibujar" onMouseDragged="#transportar" prefHeight="720.0" prefWidth="1240.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="pane" layoutX="296.0" onDragDetected="#validar" onMouseClicked="#dibujar" onMouseDragged="#transportar" prefHeight="720.0" prefWidth="1240.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="texto" layoutX="22.0" layoutY="106.0" smooth="false" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="FDOKSDKFDS" underline="true">
                <font>
@@ -127,5 +127,6 @@
       <Button layoutX="224.0" layoutY="159.0" mnemonicParsing="false" onAction="#simple" text="simple" />
       <Button layoutX="224.0" layoutY="202.0" mnemonicParsing="false" onAction="#doble" text="doble" />
       <Button layoutX="218.0" layoutY="248.0" mnemonicParsing="false" onAction="#editarCardinalidad" text="edit card" />
+      <Button layoutX="125.0" layoutY="478.0" mnemonicParsing="false" text="validar" />
    </children>
 </AnchorPane>
