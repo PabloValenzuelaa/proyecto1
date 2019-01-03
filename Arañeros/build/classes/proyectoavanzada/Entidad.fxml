@@ -17,7 +17,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectoavanzada.EntidadController">
    <children>
-      <ImageView fitHeight="772.0" fitWidth="299.0" layoutX="2.0" layoutY="26.0" pickOnBounds="true" AnchorPane.topAnchor="26.0">
+      <ImageView fitHeight="772.0" fitWidth="299.0" layoutX="-3.0" layoutY="-21.0" pickOnBounds="true" AnchorPane.topAnchor="-21.0">
          <image>
             <Image url="@../rect.png" />
          </image>

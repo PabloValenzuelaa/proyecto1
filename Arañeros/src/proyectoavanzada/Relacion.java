@@ -25,8 +25,10 @@ public class Relacion {
     public ArrayList<String> nombresEditados=new ArrayList();
     public ArrayList<String> nombresEditados2=new ArrayList();
     public ArrayList<Union> uniones=new ArrayList();
+    public ArrayList<Union> unionesBorradas=new ArrayList();
     
     public ArrayList <Atributo> atributos=new ArrayList();
+    public ArrayList <Atributo> atributosBorrados=new ArrayList();
 
     public ArrayList<Entidad> getEntidadesSelec() {
         return entidadesSelec;

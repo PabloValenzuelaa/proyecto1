@@ -23,6 +23,7 @@ public class Entidad {
     public ArrayList<String> nombresEditados=new ArrayList();
     public ArrayList<String> nombresEditados2=new ArrayList();
     public ArrayList<Union> uniones=new ArrayList();
+    public ArrayList<Union> unionesBorradas=new ArrayList();
     public ArrayList<Entidad> entidadesHeredadas=new ArrayList();
     public ArrayList<Relacion> getRelaciones() {
         return relaciones;

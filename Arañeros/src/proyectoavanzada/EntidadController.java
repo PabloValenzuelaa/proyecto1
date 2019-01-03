@@ -430,9 +430,10 @@ public class EntidadController implements Initializable {
                             
                         }
                         if(entidadesSeleccionadas.get(i) instanceof Agregacion){
-                            agregaciones.get(i).relaciones.add(relacion);
+                            entidadesSeleccionadas.get(i).relaciones.add(relacion);
                             Union union=new Union(relacion, null, null,(Agregacion)entidadesSeleccionadas.get(i),puntoCar);
                             entidadesSeleccionadas.get(i).uniones.add(union);
+                            
                             relacion.uniones.add(union);
                             Line lineaa=union.getLinea();
                             puntoCar=union.puntoCar;
@@ -451,7 +452,7 @@ public class EntidadController implements Initializable {
                             lineaa.setStrokeWidth(1);
                             lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
                             pane.getChildren().add(lineaa);
-                            agregaciones.get(i).getLineas().add(lineaa);
+                            entidadesSeleccionadas.get(i).getLineas().add(lineaa);
                             //entidadesSeleccionadas.get(i).getLineas().add(lineaa);
                             relacion.getLineas().add(lineaa);
                         }
@@ -494,7 +495,7 @@ public class EntidadController implements Initializable {
                         pane.getChildren().add(lineaa);
                         entidadesSeleccionadas.get(0).getLineas().add(lineaa);
                     }
-                    sePuedeCrearRelacion=false;  
+                      
                     for (int i = 0; i < entidadesSeleccionadas.size(); i++) {
                         if(entidadesSeleccionadas.get(i) instanceof Agregacion){
                             Agregacion agregacion= (Agregacion)entidadesSeleccionadas.get(i);
@@ -503,12 +504,14 @@ public class EntidadController implements Initializable {
                         }
                         else{
                             entidadesSeleccionadas.get(i).rectangulo.Borrar();
-                        entidadesSeleccionadas.get(i).rectangulo.Dibujar();
-                        entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
+                            entidadesSeleccionadas.get(i).rectangulo.Dibujar();
+                            entidadesSeleccionadas.get(i).rectangulo.seleccionado=false;
                         }
                     }
                     contadorPuntos--;
                     puntosDeControl();
+                    System.out.println("Ya cree la relacion...");
+                    sePuedeCrearRelacion=false;  
                 }
                 else{
                     textito.setVisible(false);
@@ -541,7 +544,9 @@ public class EntidadController implements Initializable {
                     }
                 }
                 sePuedeCrearAtributo=false;
+                
             }
+            repintarTodoNegro();
         }
     
         else if(crearHerencia){
@@ -569,7 +574,9 @@ public class EntidadController implements Initializable {
                 }    
         }
         else if (sePuedeSeleccionar){
-            try{
+                //seSeleccionoRelacion=false; 
+                //seSeleccionoEntidad=false; 
+                //seSeleccionoHerencia=false;
                 Point punto = MouseInfo.getPointerInfo().getLocation();
                 posX=punto.getX()-300;
                 posY=punto.getY()-25;
@@ -624,6 +631,7 @@ public class EntidadController implements Initializable {
                                     Union union=new Union(entidades.get(i).relaciones.get(j), entidades.get(i), null,null,puntoCar);
                                     union.puntoCar=puntoCar;
                                     union.doble=true;
+                                    union.editDoble=true;
                                     Line lineaa =union.getLinea();
                                     uniones.add(union);
                                     entidades.get(i).uniones.add(union);
@@ -735,6 +743,7 @@ public class EntidadController implements Initializable {
                     }
                 }
                 //seleccionamos la agregacion
+                System.out.println("AAA "+sePuedeCrearRelacion);
                 if((!seSeleccionoRelacion && !seSeleccionoEntidad && !seSeleccionoHerencia) || (sePuedeCrearRelacion && !seSeleccionoEntidad)){
                     punto = MouseInfo.getPointerInfo().getLocation();
                     punto.x=punto.x-300;
@@ -742,10 +751,15 @@ public class EntidadController implements Initializable {
                     for (int i = 0; i < agregaciones.size(); i++) {
                         if(interseccionTransportarAgregacion(agregaciones.get(i).rectanguloAgregacion.punto1,
                             agregaciones.get(i).rectanguloAgregacion.punto3,punto)){
+                            System.out.println("TE PILLE MALDITA");
+                            agregaciones.get(i).rectanguloAgregacion.PintarColorCrimson();
+                            System.out.println("Pinteee");
+                            
                             if(sePuedeEditar){
                                 for (int j = 0; j < agregaciones.size(); j++) {
                                     agregaciones.get(j).rectanguloAgregacion.repintarNegro();
                                 }
+                                agregaciones.get(i).rectanguloAgregacion.PintarColorCrimson();
                                 relacionesSeleccionadas.clear();
                                 seSeleccionoRelacion=false;
                                 seSeleccionoEntidad=false;
@@ -771,7 +785,6 @@ public class EntidadController implements Initializable {
                                     uniones.add(union);
                                     union.editDoble=true;
                                     modificaciones.add(union);
-                                    union.editDoble=true;
                                     lineaa.setStroke(Color.BLACK); //color de la linea que une
                                     lineaa.setStrokeWidth(1);
                                     lineaa.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -812,33 +825,22 @@ public class EntidadController implements Initializable {
                                 objetoNumero=i;
                                 agregacionNumero=i;
                             }
+                            
                             seSeleccionoAgregacion=true;
                             //pintamos el rectangulo
-                            agregaciones.get(i).rectanguloAgregacion.PintarColorCrimson();
                             entidadesSeleccionadas.add(agregaciones.get(i));
                             break;
                         }
                     }
                 }
-            }catch(Exception e){
-            }
+            
         }
         else if (sePuedeSeleccionarBorrar){
                 borradas.clear();
                 Point punto = MouseInfo.getPointerInfo().getLocation();
                 punto.x-=300;
                 punto.y-=25;
-                for (int i = 0; i < agregaciones.size(); i++) {
-                    if(interseccionTransportarAgregacion(agregaciones.get(i).rectanguloAgregacion.punto1,
-                    agregaciones.get(i).rectanguloAgregacion.punto3,punto)){
-                    agregaciones.get(i).rectanguloAgregacion.Borrar(pane);
-                    System.out.println(agregaciones.get(i).nombre);
-                    pane.getChildren().remove(agregaciones.get(i).nombre);
-                    agregaciones.remove(agregaciones.get(i));
-                    sePuedeSeleccionarBorrar=false;
-                    break;
-                    }
-                }
+                int a=0;
                 for (int i = 0; i < relaciones.size(); i++) {
                     //entidades.get(i).rectangulo.imprimirPuntos();
                     if (relaciones.get(i).poligono.seleccionar(punto)){
@@ -848,6 +850,7 @@ public class EntidadController implements Initializable {
                             pane.getChildren().remove(relaciones.get(i).uniones.get(j).linea);
                             pane.getChildren().remove(relaciones.get(i).uniones.get(j).car);
                         }
+                        a=1;
                         borrarRelacion(relaciones.get(i));
                     }
                 }
@@ -856,6 +859,7 @@ public class EntidadController implements Initializable {
                     if (atributos.get(i).poligono.seleccionar(punto)){
                         modificaciones.add(atributos.get(i));
                         borrarAtributo(atributos.get(i));
+                        a=1;
                     }
                 }
                 for (int i = 0; i < entidades.size(); i++) {
@@ -863,6 +867,17 @@ public class EntidadController implements Initializable {
                     if (interseccionRectangulo(entidades.get(i), punto)){
                         modificaciones.add(entidades.get(i));
                         borrarEntidad(entidades.get(i));
+                        a=1;
+                    }
+                }
+                if(a==0){
+                    for (int i = 0; i < agregaciones.size(); i++) {
+                        if(interseccionTransportarAgregacion(agregaciones.get(i).rectanguloAgregacion.punto1,
+                        agregaciones.get(i).rectanguloAgregacion.punto3,punto)){
+                        borrarAgregacion(agregaciones.get(i));
+                        sePuedeSeleccionarBorrar=false;
+                        break;
+                        }
                     }
                 }
                 for (int i = 0; i < borradas.size(); i++) {
@@ -1157,6 +1172,7 @@ public class EntidadController implements Initializable {
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     //FALTA UN IIIIF
+                    if(uniones.get(i).relacion!=null&&uniones.get(i).entidad!=null)
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
                         modificaciones.add(uniones.get(i));
                         if(uniones.get(i).car.getText().equals("N")){
@@ -1227,6 +1243,7 @@ public class EntidadController implements Initializable {
             else if(seSeleccionoEntidad){
                 //repintar entidaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad
                 for (int i = 0; i < uniones.size(); i++) {
+                    if(uniones.get(i).entidad!=null&&uniones.get(i).relacion!=null)
                     if(uniones.get(i).entidad.equals(entidades.get(objetoNumero))&&uniones.get(i).relacion.equals(relaciones.get(relacionNumero))){
                         System.out.println(uniones.get(i).doble);
                         if(uniones.get(i).doble){
@@ -1882,7 +1899,6 @@ public class EntidadController implements Initializable {
                 else
                     pane.getChildren().add(uniones.get(i).car);
             }
-            
         }
         
     }
@@ -1999,6 +2015,58 @@ public class EntidadController implements Initializable {
         entidades.remove(entidad);
         sePuedeSeleccionarBorrar=false;
     }
+    public void borrarAgregacion(Agregacion agregacion){
+        agregacion.rectanguloAgregacion.Borrar(pane);
+        pane.getChildren().remove(agregacion.nombre);
+        for (int i = 0; i < uniones.size(); i++) {
+            if(uniones.get(i).agregacion!=null &&uniones.get(i).agregacion==(agregacion)){
+                borradas.add(uniones.get(i));
+                if(uniones.get(i).relacion!= null){
+                    uniones.get(i).relacion.entidadesSelec.remove(agregacion);
+                    if(uniones.get(i).relacion.entidadesSelec.size()==0){
+                        relaciones.remove(uniones.get(i).relacion);
+                        pane.getChildren().remove(uniones.get(i).relacion.nombre);
+                        
+                    }
+                    else if(uniones.get(i).relacion.entidadesSelec.size()==1){
+                        for (int j = 0; j < uniones.size(); j++){
+                            if(uniones.get(j).relacion==uniones.get(i).relacion &&uniones.get(j).entidad==uniones.get(i).relacion.entidadesSelec.get(0)){
+                                Union union=(new Union(uniones.get(j).relacion, uniones.get(j).entidad,null,null,puntoCar));
+                                union.unoAuno=true;
+                                union.CrearRelacion(uniones.get(j).relacion.poligono);
+                                uniones.add(union);
+                                break;
+                            }
+                        }
+                    } 
+                    boolean debil=false;
+                    if(uniones.get(i).relacion instanceof RelaciónDebil){
+                        for (int j = 0; j < uniones.get(j).relacion.entidadesSelec.size(); j++) { //busco si hay una entidad debil
+                            if(uniones.get(j).relacion.entidadesSelec.get(j) instanceof EntidadDebil){
+                                debil=true;
+                            }
+                                
+                        }
+                    }
+                    if(!debil){
+                        try{
+                            RelaciónDebil relacion=(RelaciónDebil)uniones.get(i).relacion;
+                            relacion.poligono2.actualizar(0);
+                        }catch(Exception e){}
+                    }
+                    uniones.get(i).relacion.poligono.actualizar(uniones.get(i).relacion.entidadesSelec.size());
+                    actualizarUniones();
+                
+                }
+                
+            }
+            
+           
+        }
+        
+        agregaciones.remove(agregacion);
+        sePuedeSeleccionarBorrar=false;
+    }
     public void borrarRelacion(Relacion relacion){
          for (int i = 0; i < uniones.size(); i++){
              if(uniones.get(i).relacion!=null &&uniones.get(i).relacion==relacion){
@@ -2014,6 +2082,12 @@ public class EntidadController implements Initializable {
             RelaciónDebil relacionDebil=(RelaciónDebil)relacion;
             relacionDebil.poligono2.borrar();
         }
+        for (int i = 0; i < agregaciones.size(); i++) {
+            if(agregaciones.get(i).relacion.equals(relacion)){
+                System.out.println("jjd");
+                borrarAgregacion(agregaciones.get(i));
+                }
+        }
         relacion.poligono.borrar();
         relaciones.remove(relacion);
         pane.getChildren().remove(relacion.nombre);
@@ -2024,9 +2098,10 @@ public class EntidadController implements Initializable {
             if(uniones.get(i).atributo==atributo){
                 borradas.add(uniones.get(i));
                 pane.getChildren().remove(uniones.get(i).linea);
-                if(uniones.get(i).relacion!=null)
+                if(uniones.get(i).relacion!=null){
                     uniones.get(i).relacion.atributos.remove(atributo);
-                
+                    uniones.get(i).relacion.atributos.remove(atributo);
+                }
                 if(atributo.tipo==TipoAtributo.compuesto){
                     if(atributo.atributos.size()>0){
                         for (int j = 0; j < atributo.atributos.size(); j++) {
@@ -2073,19 +2148,19 @@ public class EntidadController implements Initializable {
         if(modificaciones.get(size-1) instanceof Union){
             Union union=(Union)modificaciones.get(size-1);
             if(uniones.contains(union)){
-                if(union.editDoble){
-                    if(union.car.getText().equals("N")){
-                    union.car.setText("1");  
-                    }
-                    else if(union.car.getText().equals("1")) {
-                        union.car.setText("N");
-                    }
+                if(!union.editDoble){
+                    try {
+                        if(union.car.getText().equals("N")){
+                        union.car.setText("1");  
+                        }
+                        else if(union.car.getText().equals("1")) {
+                            union.car.setText("N");
+                        }
+                    } catch (Exception e) {
+                        uniones.remove(union);
+                    pane.getChildren().remove(union.linea);}
                     union.editDoble=false;
-                }
-                else{
-                uniones.remove(union);
-                pane.getChildren().remove(union.linea);}
-                
+                    } 
                 }
             else{
                 uniones.add(union);
@@ -2220,20 +2295,21 @@ public class EntidadController implements Initializable {
         if(redo.get(size-1) instanceof Union){
             Union union=(Union)redo.get(size-1);
             if(uniones.contains(union)){
-                if(union.editDoble){
+                try {
                     if(union.car.getText().equals("N")){
                     union.car.setText("1");  
                     }
                     else if(union.car.getText().equals("1")) {
                         union.car.setText("N");
                     }
+                } catch (Exception e) {
+                    uniones.remove(union);
+                    pane.getChildren().remove(union.linea);
+                
                     union.editDoble=false;
                 }
-                else{
-                uniones.remove(union);
-                pane.getChildren().remove(union.linea);}
-                
-                }
+            }
+          
             else{
                 uniones.add(union);
                 pane.getChildren().add(union.linea);
@@ -2405,6 +2481,7 @@ public class EntidadController implements Initializable {
                 }
                 for (int i = 0; i < uniones.size(); i++) {
                     for (int j = 0; j <entidad.relaciones.size(); j++) {
+                        entidad.relaciones.get(j).entidadesSelec.add(entidad);
                         if(uniones.get(i).relacion!=null&&uniones.get(i).relacion==entidad.relaciones.get(j)){
                             if (uniones.get(i).unoAuno) {
                                 pane.getChildren().remove(uniones.get(i).linea);
@@ -2472,6 +2549,21 @@ public void editarCardinalidad(){
        sePuedeSeleccionar=true;
        sePuedeDibujarSimple=true;
    }
+   
+   public void repintarTodoNegro(){
+        for (int p = 0; p < entidades.size(); p++) {
+            entidades.get(p).rectangulo.Borrar();
+            entidades.get(p).rectangulo.Dibujar();
+            entidades.get(p).rectangulo.seleccionado=false;
+        }
+        for (int j = 0; j < relaciones.size(); j++) {
+            relaciones.get(j).poligono.repintarNegro();
+        }
+        for (int i = 0; i < atributos.size(); i++) {
+            atributos.get(i).poligono.repintarNegro();
+        }
+   }
+
    @FXML
    public void validar(){
        boolean clave=false;

@@ -114,10 +114,19 @@ public class Agregacion extends Entidad{
     public void obtenerPuntos(){
         puntosElem.clear();
         puntosElem.addAll(relacion.poligono.puntos);
+        for (int i = 0; i < relacion.atributos.size(); i++) {
+            puntosElem.addAll(relacion.atributos.get(i).poligono.puntos);
+            if(relacion.atributos.get(i).tipo== TipoAtributo.compuesto){
+                for (int k = 0; k < relacion.atributos.get(i).atributos.size(); k++) {
+                    puntosElem.addAll(relacion.atributos.get(i).atributos.get(k).poligono.puntos);
+                }
+            }
+        }
         for (int i = 0; i < relacion.entidadesSelec.size(); i++) {
             if(relacion.entidadesSelec.get(i) instanceof Agregacion){
                 Agregacion agrega = (Agregacion) relacion.entidadesSelec.get(i);
                 puntosElem.addAll(agrega.puntos);
+                
             }
             else{
                 puntosElem.addAll(relacion.entidadesSelec.get(i).rectangulo.puntos);

@@ -27,7 +27,7 @@ public class Union {
     public boolean doble;
     Line linea;
     Point puntoCar; 
-    public Agregacion agregacion;
+    public Agregacion agregacion=null;
     public Text car=null;
     boolean dobleAgregacion=false;
 
